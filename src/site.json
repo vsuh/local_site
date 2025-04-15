@@ -1,0 +1,59 @@
+{
+    "site": {
+        "parameters": {},
+        "head": {},
+        "container": {
+            "links": [
+                {
+                    "portainer": [
+                        {
+                            "name": "Portainer"
+                        },
+                        {
+                            "description": "Portainer is a universal container management platform"
+                        },
+                        {
+                            "link": "192.168.2.2:9000"
+                        },
+                        {
+                            "class": "vs-link vs-box"
+                        }
+                    ]
+                },
+                {
+                    "audiobookshelf": [
+                        {
+                            "name": "audiobookshelf"
+                        },
+                        {
+                            "description": "Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts"
+                        },
+                        {
+                            "link": "192.168.2.2:1333"
+                        },
+                        {
+                            "class": "vs-link vs-box"
+                        }
+                    ]
+                },
+                {
+                    "Transmission": [
+                        {
+                            "name": "transmissionbt"
+                        },
+                        {
+                            "description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux"
+                        },
+                        {
+                            "link": "192.168.2.2:9091"
+                        },
+                        {
+                            "class": "vs-link vs-box"
+                        }
+                    ]
+                }
+            ]
+        },
+        "footer": {}
+    }
+}
