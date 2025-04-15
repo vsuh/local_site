@@ -9,13 +9,58 @@
     <meta http-equiv="Expires" content="0">
       
     <meta charset="UTF-8"></head>
-<body>
+    <style>
+      .vs-link {
+          display: block;
+          margin-bottom: 10px;
+      }
+      .vs-box {
+          border: 1px solid #ccc;
+          padding: 10px;
+      }
+  </style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+    <body>
 
 <header></header>
 
-<container></container>
+<container id="links-container">
+</container>
 
 <footer></footer>
 
+
+<script>
+  $.getJSON("src/site.json", function(data) {
+      var linksContainer = $("#links-container");
+      $.each(data.site.container.links, function(index, linkData) {
+          $.each(linkData, function(serviceName, serviceData) {
+              var name = "";
+              var description = "";
+              var link = "";
+              var className = "";
+
+              $.each(serviceData, function(i, item) {
+                  if ("name" in item) {
+                      name = item.name;
+                  } else if ("description" in item) {
+                      description = item.description;
+                  } else if ("link" in item) {
+                      link = item.link;
+                  } else if ("class" in item) {
+                      className = item["class"];
+                  }
+              });
+
+              var linkHtml = $('<a href="' + link + '" class="' + className + '"><div><h3>' + name + '</h3><p>' + description + '</p></div></a>');
+              linksContainer.append(linkHtml);
+          });
+      });
+  });
+</script>
 
 </body>
