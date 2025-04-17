@@ -1,7 +1,7 @@
 {
     "site": {
-        "parameters": {},
-        "head": {},
+        "parameters": [{"static": "/static"}, {"images": "/static/images"}, {"icon": "/static/icons"},{"css": "/static/css"},{"scripts": "/static/js"}],
+        "head": [{"title": "VSCraft state news"}],
         "container": {
             "links": [
                 {

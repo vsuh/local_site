@@ -1,40 +1,38 @@
-<head>
-    <title>HELOR</title>
-    <link rel="shortcut icon" href="/static/icons/favicon.ico" type="image/x-icon">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-<header></header>
-<div class="container">
-    <div id="links-container" class="row"> </div>
-</div>
-<footer></footer>
-<script>
-  $.getJSON("src/site.json", function(data) {
-      var linksContainer = $("#links-container");
-      $.each(data.site.container.links, function(index, linkData) {
-          $.each(linkData, function(serviceName, serviceData) {
-              var name = "";
-              var description = "";
-              var link = "";
-              var className = "";
+$(document).ready(function() {
+    $.getJSON('src/site.json', function(data) {
+        const links = data.site.container.links;
+        
+        links.forEach(service => {
+            const serviceKey = Object.keys(service)[0];
+            const serviceData = service[serviceKey];
+            
+            let name, description, link, className;
+            
+            serviceData.forEach(item => {
+                const key = Object.keys(item)[0];
+                const value = item[key];
+                switch(key) {
+                    case 'name': name = value; break;
+                    case 'description': description = value; break;
+                    case 'link': link = value; break;
+                    case 'class': className = value; break;
+                }
+            });
 
-              $.each(serviceData, function(i, item) {
-                  name = item.name || name;
-                  description = item.description || description;
-                  link = item.link || link;
-                  className = item.class || className;
-              });
-
-              var linkHtml = $('<div class="col-md-4"><a href="' + link + '" class="' + className + ' vs-link vs-box card"><div class="card-body"><h3>' + name + '</h3><p>' + description + '</p></div></a></div>');
-              linksContainer.append(linkHtml);
-          });
-      });
-  });
-</script>
-</body>
+            const linkElement = `
+                <div class="col">
+                    <div class="${className}">
+                        <h3>${name}</h3>
+                        <p class="text-muted">${description}</p>
+                        <a href="http://${link}" target="_blank" class="btn btn-outline-primary">Открыть →</a>
+                    </div>
+                </div>
+            `;
+            
+            $('#linksContainer').append(linkElement);
+        });
+    }).fail(function(jqxhr, textStatus, error) {
+        console.error('Error loading JSON file:', textStatus, error);
+        $('#linksContainer').html('<div class="alert alert-danger">Ошибка загрузки данных</div>');
+    });
+});
