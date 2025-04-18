@@ -37,6 +37,22 @@
                     ]
                 },
                 {
+                    "plex": [
+                        {
+                            "name": "plex"
+                        },
+                        {
+                            "description": "Plex Media Server: Create, organize, and store your collections."
+                        },
+                        {
+                            "link": "192.168.2.2:32400"
+                        },
+                        {
+                            "class": "vs-link vs-box"
+                        }
+                    ]
+                },
+                {
                     "Transmission": [
                         {
                             "name": "transmissionbt"
