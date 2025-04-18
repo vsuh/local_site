@@ -1,5 +1,5 @@
 old/
-dist/
+dist/index.html
 .env/
 __pycache__/
 
