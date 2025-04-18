@@ -29,12 +29,12 @@ jobs:
         env = Environment(loader=FileSystemLoader('src'))
         template = env.get_template('index.tpl')
         
-        with open('src/site.json') as f:
+        with open('src/site.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
         
         html = template.render(site=data['site'])
         
-        with open('dist/index.html', 'w') as f:
+        with open('dist/index.html', 'w', encoding='utf-8') as f:
             f.write(html)
         EOF
 

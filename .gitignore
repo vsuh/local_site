@@ -1,5 +1,7 @@
 old/
 dist/index.html
 .env/
+.venv/
 __pycache__/
 
+tt.py  
