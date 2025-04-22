@@ -10,6 +10,7 @@
     <title>{{ site.head.title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .vs-title {}
         .vs-box {
             font-family: helvetica;
             border: 1px solid #bbc;

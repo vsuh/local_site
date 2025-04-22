@@ -8,7 +8,8 @@
 			"scripts": "/static/js"
 		},
 		"head": {
-			"title": "VSCraft workshop news"
+			"title": "VSCraft workshop news",
+            "class": "vs-title"
 		},
 		"container": {
 			"links": {
