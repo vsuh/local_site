@@ -89,7 +89,7 @@
                     <div class="card-body">
                         <p class="text-muted card-text vs-desc" style="padding: 10px;">{{ service.description }}</p>
                             <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
-                                <i class="bi bi-arrow-return-right"></i> {{ service.linkname }}  
+                                &#xF132; {{ service.linkname }}  
                             </a> <!--  → -->
                     </div>
                 </div>
