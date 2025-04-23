@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,.1); /* Shadow effect */
             margin-bottom: 20px;
         }
-        .vs-desc { font-size: larger; color: #666; }
+        .vs-desc { font-size: larger; }
         .footer {
             position: fixed;
             left: 0;
@@ -32,6 +32,11 @@
             font-size: 0.8em;
             padding: 10px;
         }
+       .footer > div {
+            display: flex;
+            justify-content: space-between;
+        }
+
         @media (max-width: 768px) {
             .container.py-4 { padding-left: 10px; padding-right: 10px; }
             .vs-box { font-size: x-large; } /* Larger font size on mobile screens */
@@ -40,6 +45,7 @@
 </head>
 <body>
     <div class="container">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
         <h1 class="text-center" style="font-family: 'Playfair Display', serif;">{{ site.head.title }}</h1>
     </div>
     <div class="container py-4">
@@ -47,9 +53,9 @@
             {% for service_name, service in site.container.links.items() %}
             <div class="col">
                 <div class="{{ service.class }}">
-                    <h3>{{ service.name }}</h3>
+                    <h3 class="vs-name">{{ service.name }}</h3>
                     <p class="text-muted vs-desc">{{ service.description }}</p>
-                    <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary d-block w-100 mt-2">
+                    <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end d-block> <!-- w-100 mt-2"-->
                         {{ service.linkname }} →
                     </a>
                 </div>
@@ -57,8 +63,8 @@
             {% endfor %}
         </div>
     </div>
-    <div class="footer">
-        <div>
+    <div class="py-4">
+        <div class="footer">
             <div class="left">{{ site.footer.left }}</div>
             <div class="middle">{{ site.footer.middle }}</div>
             <div class="right">{{ site.footer.right | safe }}</div>
