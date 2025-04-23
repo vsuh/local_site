@@ -54,8 +54,10 @@
             {% for service_name, service in site.container.links.items() %}
             <div class="col">
                 <div class="{{ service.class }}">
-                    <h3 class="vs-name">{{ service.name }}</h3>
-                    <p class="text-muted vs-desc">{{ service.description }}</p>
+                    <div class="vs-name" style="padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: #eee;">
+                        <h3>{{ service.name }}</h3>
+                    </div>
+                    <p class="text-muted vs-desc" style="padding: 10px;">{{ service.description }}</p>
                     <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
                         {{ service.linkname }} →
                     </a>
