@@ -10,48 +10,48 @@
     <title>{{ site.head.title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .vs-title {}
+        body { font-size: 1.1rem; line-height: 1.5; }
+        h1 { font-size: 2.5em; margin-top: 10px; text-align: center; }
         .vs-box {
-            font-family: helvetica;
-            border: 1px solid #bbc;
+            font-family: Helvetica, sans-serif;
+            border: 1px solid #bbb;
             border-radius: 10px;
             padding: 20px;
-            background-color:#ffd; 
+            background-color: #fffefb; /* Кремовый оттенок фона */
+            box-shadow: 0 2px 5px rgba(0,0,0,.1); /* Тень */
             margin-bottom: 20px;
         }
-        .vs-box .vs-desc {
-            font-size: smaller;
-}
+        .vs-desc { font-size: larger; color: #666; }
         .footer {
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
-            background-color: #f0f0f5; /* Slightly different background */
+            background-color: #f0f0f5; /* Серый фон подвала */
             font-size: 0.8em;
             padding: 10px;
         }
-        .footer > div {
-            display: flex;
-            justify-content: space-between;
+        @media (min-width: 768px) {
+            .row-cols-custom { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
         }
-
+        @media (max-width: 768px) {
+            .container.py-4 { padding-left: 10px; padding-right: 10px; }
+            .vs-box { font-size: large; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-        <h1 class="text-start" style="font-family: 'Playfair Display', serif; font-size: 2em; margin-top: 10px;">{{ site.head.title }}</h1>
+        <h1 class="text-center" style="font-family: 'Playfair Display', serif;">{{ site.head.title }}</h1>
     </div>
     <div class="container py-4">
-       <div class="row row-cols-1 row-cols-md-2 g-4">
-
+        <div class="row row-cols-1 row-cols-lg-2 g-4 row-cols-custom">
             {% for service_name, service in site.container.links.items() %}
             <div class="col">
                 <div class="{{ service.class }}">
                     <h3>{{ service.name }}</h3>
                     <p class="text-muted vs-desc">{{ service.description }}</p>
-                     <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
+                    <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary d-block w-100 mt-2">
                         {{ service.linkname }} →
                     </a>
                 </div>
@@ -65,5 +65,6 @@
             <div class="middle">{{ site.footer.middle }}</div>
             <div class="right">{{ site.footer.right | safe }}</div>
         </div>
+    </div>
 </body>
 </html>
