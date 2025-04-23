@@ -23,6 +23,7 @@
             margin-bottom: 20px;
         }
         .vs-desc { font-size: larger; }
+        .vs-name { background-color: #FFD;}
         .footer {
             position: fixed;
             left: 0;
@@ -55,7 +56,7 @@
                 <div class="{{ service.class }}">
                     <h3 class="vs-name">{{ service.name }}</h3>
                     <p class="text-muted vs-desc">{{ service.description }}</p>
-                    <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end d-block> <!-- w-100 mt-2"-->
+                    <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
                         {{ service.linkname }} →
                     </a>
                 </div>
