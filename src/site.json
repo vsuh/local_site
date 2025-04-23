@@ -40,6 +40,13 @@
 					"description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux",
 					"link": "192.168.2.2:9091",
 					"class": "vs-link vs-box"
+				},
+                "notebene": {
+					"name": "Note Bene",
+					"linkname": "notes",
+					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
+					"link": "192.168.2.2:7878",
+					"class": "vs-link vs-box"
 				}
 			}
 		},
