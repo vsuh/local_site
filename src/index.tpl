@@ -40,7 +40,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-start" style="font-family: 'Brush Script MT', cursive; font-size: 2em; margin-top: 10px;">{{ site.head.title }}</h1>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+        <h1 class="text-start" style="font-family: 'Playfair Display', serif; font-size: 2em; margin-top: 10px;">{{ site.head.title }}</h1>
     </div>
     <div class="container py-4">
        <div class="row row-cols-1 row-cols-md-2 g-4">
