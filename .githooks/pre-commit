@@ -8,6 +8,6 @@ if [ -n "$CHANGED_FILES" ] || [ ! -f index.html ]; then
     .venv/Scripts/python.exe src/generate.py || exit 1 
     # git add index.html 
 fi 
-echo "#\## changed files: $CHANGED_FILES"
-
+echo "### changed files: [$CHANGED_FILES]"
+set
 exit 0 
