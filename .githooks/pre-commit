@@ -9,5 +9,5 @@ if [ -n "$CHANGED_FILES" ] || [ ! -f index.html ]; then
     # git add index.html 
 fi 
 echo "### changed files: [$CHANGED_FILES]"
-export
+
 exit 0 
