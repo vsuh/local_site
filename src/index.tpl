@@ -44,7 +44,7 @@
         <h1 class="text-start" style="font-family: 'Playfair Display', serif; font-size: 2em; margin-top: 10px;">{{ site.head.title }}</h1>
     </div>
     <div class="container py-4">
-       <div class="row row-cols-1 row-cols-sd-2 g-4">
+       <div class="row row-cols-1 row-cols-md-2 g-4">
 
             {% for service_name, service in site.container.links.items() %}
             <div class="col">
