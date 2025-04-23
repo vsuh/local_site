@@ -17,35 +17,35 @@
 					"name": "Portainer",
                     "linkname": "portainer",
 					"description": "Portainer is a universal container management platform",
-					"link": "192.168.2.2:9000",
+					"link": ":9000",
 					"class": "vs-link vs-box"
 				},
 				"audiobookshelf": {
 					"name": "Audiobook Shelf",
                     "linkname": "audiobookshelf",
 					"description": "Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts",
-					"link": "192.168.2.2:1333",
+					"link": ":1333",
 					"class": "vs-link vs-box"
 				},
 				"plex": {
 					"name": "Plex",
 					"linkname": "plex",
 					"description": "Plex Media Server: Create, organize, and store your collections.",
-					"link": "192.168.2.2:32400",
+					"link": ":32400",
 					"class": "vs-link vs-box"
 				},
 				"transmissionbt": {
 					"name": "Transmission",
 					"linkname": "transmission",
 					"description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux",
-					"link": "192.168.2.2:9091",
+					"link": ":9091",
 					"class": "vs-link vs-box"
 				},
                 "notebene": {
 					"name": "Note Bene",
 					"linkname": "notes",
 					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
-					"link": "192.168.2.2:7878",
+					"link": ":7878",
 					"class": "vs-link vs-box"
 				}
 			}
