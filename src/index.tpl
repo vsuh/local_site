@@ -82,20 +82,16 @@
         <div class="row row-cols-1 row-cols-lg-2 g-4">
             {% for service_name, service in site.container.links.items() %}
             <div class="col">
-                <div class="card mb-3 shadow-sm border-0 rounded">
-                    <!--div class="{{ service.class }}"-->
-                                    <div class="card-header bg-primary text-white"><h3>{{ service.name }}</h3></div>
-
-                        <!--div class="vs-name" style="padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: #eee;">
-                            <h3>{{ service.name }}</h3>
-                        </div-->
-                        <div class="card-body">
-                            <p class="text-muted card-text vs-desc" style="padding: 10px;">{{ service.description }}</p>
-                                <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
-                                    {{ service.linkname }} →
-                                </a>
-                        </div>
-                    
+                <div class="card mb-3 shadow-sm border-1 rounded">
+                    <div class="card-header bg-primary text-white">
+                        <h3>{{ service.name }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted card-text vs-desc" style="padding: 10px;">{{ service.description }}</p>
+                            <a href="http://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
+                                <i class="bi bi-arrow-return-right"></i> {{ service.linkname }}  
+                            </a> <!--  → -->
+                    </div>
                 </div>
             </div>
             {% endfor %}
