@@ -93,16 +93,13 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="row row-cols-2">
-            <h1 class="text-center">{{ site.head.title }}</h1>
-            <div class="form-check form-switch ms-auto">
-                <input class="form-check-input" title="Theme switcher" type="checkbox" id="themeSwitcher" role="switch">
-                <label class="form-check-label visually-hidden" for="themeSwitcher">Темная тема</label>
-            </div>
+    <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="text-center flex-fill">{{ site.head.title }}</h1>
+        <div class="form-check form-switch ms-auto">
+            <input class="form-check-input" title="Theme switcher" type="checkbox" id="themeSwitcher" role="switch">
+            <label class="form-check-label visually-hidden" for="themeSwitcher">Темная тема</label>
         </div>
     </div>
-
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
             {% for service_name, service in site.container.links.items() %}
