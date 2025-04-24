@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-body">
                         <p class="vs-desc text-muted">{{ service.description }}</p>
-                        <a href="#" data-port="{{ service.port }}" target="_blank" class="btn btn-primary float-end service-link">
+                        <a href="#" data-port="{{ service.port }}" target="_blank" class="btn btn-primary service-link">
                             <i class="bi bi-arrow-return-right"></i> {{ service.linkname }}
                         </a>
                     </div>

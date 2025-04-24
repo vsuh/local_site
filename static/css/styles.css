@@ -90,3 +90,34 @@ h1 {
 .row.g-4 > div.col.d-flex > .card > .card-body {
     flex-grow: 1;
 }
+
+.row.g-4 > div.col.d-flex > .card {
+    flex: 1 0 0;    /* Равномерное распределение ширины */
+    width: 100%;    /* Занимать всю доступную ширину */
+}
+
+/* Добавьте в конец styles.css */
+.card {
+    overflow: visible !important; /* Разрешаем выход элементов за границы */
+}
+
+.card-body {
+    position: relative; /* Для абсолютного позиционирования кнопки */
+    padding-bottom: 2.5rem; /* Место для выступающей кнопки */
+}
+
+.service-link {
+    position: absolute;
+    right: 1.5rem;
+    bottom: -1.8rem; /* Отрицательное значение для выхода за границу */
+    z-index: 2; /* Чтобы кнопка была поверх следующей карточки */
+    transition: all 0.3s ease !important;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .service-link {
+        bottom: -1.5rem;
+        right: 1rem;
+    }
+}
