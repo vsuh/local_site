@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-bs-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,123 +9,161 @@
     <link rel="manifest" href="/static/icons/site.webmanifest">
 
     <title>VSCraft workshop news</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 
     <style>
-        body { font-size: 1.1rem; line-height: 1.5; }
-        h1 { font-size: 2.5em; margin-top: 10px; text-align: center; }
-        .vs-box {
-            font-family: Helvetica, sans-serif;
-            border: 1px solid #bbb;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: #fffefb;
-            box-shadow: 0 2px 5px rgba(0,0,0,.1);
-            margin-bottom: 20px;
+        body {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
-        .vs-desc { font-size: larger; }
-        .vs-name { background-color: #FFD; }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .card {
+            border-radius: 5px !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            background-color: #f8f9fa !important;
+            color: #b58500 !important;
+            font-weight: bold;
+        }
+
+        .vs-desc {
+            font-size: 1rem;
+            transition: font-size 0.3s ease;
+        }
+
+        @media (min-width: 992px) {
+            .vs-desc {
+                font-size: 75%;
+            }
+        }
+
         .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
             background-color: #f0f0f5;
             font-size: 0.8em;
-            padding: 10px;
+            padding: 10px 20px;
         }
-        .footer > div {
-            display: flex;
-            justify-content: space-between;
+
+        .service-link {
+            transition: all 0.3s ease;
         }
-        @media (max-width: 768px) {
-            .container.py-4 { padding-left: 10px; padding-right: 10px; }
-            .vs-box { font-size: x-large; }
+
+        .service-link.current {
+            box-shadow: 0 0 10px rgba(0,255,100,0.6);
+            background-color: #198754 !important;
+            border-color: #198754;
+        }
+
+        .service-link.current:hover {
+            background-color: #28a745 !important;
+        }
+
+        [data-bs-theme="dark"] body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        [data-bs-theme="dark"] .card-header {
+            background: linear-gradient(135deg, #444 0%, #222 100%);
+            color: #ffc107 !important;
+        }
+
+        [data-bs-theme="dark"] .footer {
+            background-color: #1f1f1f;
+            color: #bbb;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-        <h1 class="text-center" style="font-family: 'Playfair Display', serif;">VSCraft workshop news</h1>
+        <h1 class="text-center">VSCraft workshop news</h1>
     </div>
 
- 
-     
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
             
             <div class="col">
-                <div class="card mb-3 shadow-sm border-1 rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h3>Portainer</h3>
+                <div class="card shadow-sm border-1">
+                    <div class="card-header">
+                        <h3 class="m-0">Portainer</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted card-text vs-desc" style="padding: 10px;">Portainer is a universal container management platform</p>
-                        <a href="#" data-port="9000" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                            <i class="bi bi-arrow-return-right"></i>
-                            portainer
+                        <p class="vs-desc text-muted">Portainer is a universal container management platform</p>
+                        <a href="#" data-port="9000" target="_blank" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i> portainer
                         </a>
                     </div>
                 </div>
             </div>
             
             <div class="col">
-                <div class="card mb-3 shadow-sm border-1 rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h3>Audiobook Shelf</h3>
+                <div class="card shadow-sm border-1">
+                    <div class="card-header">
+                        <h3 class="m-0">Audiobook Shelf</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted card-text vs-desc" style="padding: 10px;">Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts</p>
-                        <a href="#" data-port="1333" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                            <i class="bi bi-arrow-return-right"></i>
-                            audiobookshelf
+                        <p class="vs-desc text-muted">Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts</p>
+                        <a href="#" data-port="1333" target="_blank" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i> audiobookshelf
                         </a>
                     </div>
                 </div>
             </div>
             
             <div class="col">
-                <div class="card mb-3 shadow-sm border-1 rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h3>Plex</h3>
+                <div class="card shadow-sm border-1">
+                    <div class="card-header">
+                        <h3 class="m-0">Plex</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted card-text vs-desc" style="padding: 10px;">Plex Media Server: Create, organize, and store your collections.</p>
-                        <a href="#" data-port="32400" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                            <i class="bi bi-arrow-return-right"></i>
-                            plex
+                        <p class="vs-desc text-muted">Plex Media Server: Create, organize, and store your collections.</p>
+                        <a href="#" data-port="32400" target="_blank" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i> plex
                         </a>
                     </div>
                 </div>
             </div>
             
             <div class="col">
-                <div class="card mb-3 shadow-sm border-1 rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h3>Transmission</h3>
+                <div class="card shadow-sm border-1">
+                    <div class="card-header">
+                        <h3 class="m-0">Transmission</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted card-text vs-desc" style="padding: 10px;">A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux</p>
-                        <a href="#" data-port="9091" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                            <i class="bi bi-arrow-return-right"></i>
-                            transmission
+                        <p class="vs-desc text-muted">A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux</p>
+                        <a href="#" data-port="9091" target="_blank" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i> transmission
                         </a>
                     </div>
                 </div>
             </div>
             
             <div class="col">
-                <div class="card mb-3 shadow-sm border-1 rounded">
-                    <div class="card-header bg-primary text-white">
-                        <h3>Note Bene</h3>
+                <div class="card shadow-sm border-1">
+                    <div class="card-header">
+                        <h3 class="m-0">Note Bene</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted card-text vs-desc" style="padding: 10px;">A simple scheduled reminder for Telegram with cron-like syntax</p>
-                        <a href="#" data-port="7878" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                            <i class="bi bi-arrow-return-right"></i>
-                            notes
+                        <p class="vs-desc text-muted">A simple scheduled reminder for Telegram with cron-like syntax</p>
+                        <a href="#" data-port="7878" target="_blank" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i> notes
                         </a>
                     </div>
                 </div>
@@ -134,29 +172,40 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="footer" style="position: sticky;">
-            <div class="left">2025&copy;VSCraft</div>
-            <div class="middle"></div>
-            <div class="right"><a href='https://github.com/vsuh'>GitHub</a></div>
+    <footer class="footer w-100 mt-5">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between">
+                <div>2025&copy;VSCraft</div>
+                <div></div>
+                <div><a href='https://github.com/vsuh'>GitHub</a></div>
+            </div>
         </div>
-    </div>
+    </footer>
 
-<script>
-   <!-- 🧠 JS для динамической подстановки адресов -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const host = location.hostname;
-            const base = `http://${host}`;
+            const currentPort = location.port || (location.protocol === 'https:' ? '443' : '80');
+            const currentFull = `${host}:${currentPort}`;
+            const base = `${location.protocol}//${host}`;
+
             document.querySelectorAll(".service-link").forEach(link => {
                 const port = link.dataset.port;
                 if (port) {
-                    link.href = `${base}:${port}`;
+                    const fullUrl = `${base}:${port}`;
+                    link.href = fullUrl;
+
+                    if (`${host}:${port}` === currentFull) {
+                        link.classList.add("current");
+                        const label = document.createElement("span");
+                        label.classList.add("ms-2", "fw-bold");
+                        label.textContent = " (текущий адрес)";
+                        link.appendChild(label);
+                    }
                 }
             });
         });
     </script>
-</script>
 
 </body>
 </html>
