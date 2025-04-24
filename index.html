@@ -29,17 +29,17 @@
         }
 
         .card {
-            border-radius: 12px !important;
+            border-radius: 6px !important;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(0,0,99,0.2);
         }
 
         .card-header {
-            background-color: #e0e0fa !important;
+            background-color: #d4d4ff !important;
             color:rgb(156, 156, 49) !important;
             font-weight: bold;
         }
