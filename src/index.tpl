@@ -12,84 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            background-color: #ddd;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-top: 10px;
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .card {
-            border-radius: 5px !important;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,99,0.2);
-        }
-
-        .card-header {
-            background-color: #A4A4ff !important;
-            color:rgb(233, 233, 132) !important;
-            font-weight: bold;
-        }
-
-        .vs-desc {
-            font-size: 1rem;
-            transition: font-size 0.3s ease;
-        }
-
-        @media (min-width: 992px) {
-            .vs-desc {
-                font-size: 75%;
-            }
-        }
-
-        .footer {
-            background-color: #f0f0f5;
-            font-size: 0.8em;
-            padding: 10px 20px;
-        }
-
-        .service-link {
-            transition: all 0.3s ease;
-        }
-
-        .service-link.current {
-            box-shadow: 0 0 10px rgba(0,255,100,0.6);
-            background-color: #198754 !important;
-            border-color: #198754;
-        }
-
-        .service-link.current:hover {
-            background-color: #28a745 !important;
-        }
-
-        [data-bs-theme="dark"] body {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-
-        [data-bs-theme="dark"] .card-header {
-            background: linear-gradient(135deg, #444 0%, #222 100%);
-            color: #ffc107 !important;
-        }
-
-        [data-bs-theme="dark"] .footer {
-            background-color: #1f1f1f;
-            color: #bbb;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ site.parameters.css}}/styles.css"> <!-- Подключение внешних стилей -->
 </head>
 <body>
 
@@ -100,11 +23,12 @@
             <label class="form-check-label visually-hidden" for="themeSwitcher">Темная тема</label>
         </div>
     </div>
+
     <div class="container py-4">
-        <div class="row row-cols-1 row-cols-lg-2 g-4">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for service_name, service in site.container.links.items() %}
-            <div class="col">
-                <div class="card shadow-sm border-1">
+            <div class="col d-flex">
+                <div class="card shadow-sm border-1 h-100">
                     <div class="card-header">
                         <h3 class="m-0">{{ service.name }}</h3>
                     </div>
@@ -154,7 +78,8 @@
             });
         });
     </script>
- <script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var themeSwitcher = document.getElementById('themeSwitcher');
             
@@ -183,8 +108,9 @@
                 }
             });
 
-            setInitialTheme(); // Загружаем начальную тему
+            setInitialTheme('dark'); // Загружаем начальную тему
         });
     </script>
+
 </body>
 </html>
