@@ -58,7 +58,7 @@
 		"footer": {
             "left": "2025&copy;VSCraft",
             "middle": "",
-            "right": "<a href='https://github.com/vsuh'>GitHub</a>"
+            "right": "<a href='https://github.com/vsuh/local_site.git'>GitHub</a>"
         }
 	}
 }
