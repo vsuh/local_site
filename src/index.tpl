@@ -27,7 +27,7 @@
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for service_name, service in site.container.links.items() %}
-            <div class="col d-flex">
+            <div class="col">
                 <div class="card shadow-sm border-1 h-100">
                     <div class="card-header">
                         <h3 class="m-0">{{ service.name }}</h3>
