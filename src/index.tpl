@@ -39,8 +39,8 @@
         }
 
         .card-header {
-            background-color: #d4d4ff !important;
-            color:rgb(156, 156, 49) !important;
+            background-color: #A4A4ff !important;
+            color:rgb(176, 176, 49) !important;
             font-weight: bold;
         }
 
@@ -156,6 +156,37 @@
             });
         });
     </script>
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var themeSwitcher = document.getElementById('themeSwitcher');
+            
+            function setInitialTheme() {
+                var storedTheme = localStorage.getItem('theme');
+                if(storedTheme === 'dark') {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    themeSwitcher.checked = true;
+                } else {
+                    document.documentElement.removeAttribute('data-bs-theme');
+                    themeSwitcher.checked = false;
+                }
+            }
 
+            function saveThemePreference(theme) {
+                localStorage.setItem('theme', theme);
+            }
+
+            themeSwitcher.addEventListener('change', function(event) {
+                if(this.checked) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    saveThemePreference('dark');
+                } else {
+                    document.documentElement.removeAttribute('data-bs-theme');
+                    saveThemePreference('');
+                }
+            });
+
+            setInitialTheme(); // Загружаем начальную тему
+        });
+    </script>
 </body>
 </html>
