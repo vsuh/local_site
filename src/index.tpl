@@ -68,16 +68,8 @@
         </div>
     </div>
 
-    <!--
-    <div class="container">
-        <div class="footer">
-            <div class="left">{{ site.footer.left }}</div>
-            <div class="middle">{{ site.footer.middle }}</div>
-            <div class="right">{{ site.footer.right | safe }}</div>
-        </div>
-    </div>
-    -->
-
+    
+     
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
             {% for service_name, service in site.container.links.items() %}
@@ -99,19 +91,38 @@
         </div>
     </div>
 
-    <!-- 🧠 JS для динамической подстановки адресов -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const host = location.hostname;
-            const base = `http://${host}`;
-            document.querySelectorAll(".service-link").forEach(link => {
-                const port = link.dataset.port;
-                if (port) {
-                    link.href = `${base}:${port}`;
-                }
-            });
+    <div class="container">
+        <div class="footer">
+            <div class="left">{{ site.footer.left }}</div>
+            <div class="middle">{{ site.footer.middle }}</div>
+            <div class="right">{{ site.footer.right | safe }}</div>
+        </div>
+    </div>
+
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const host = location.hostname;
+        const port = location.port || (location.protocol === 'https:' ? '443' : '80');
+        const currentUrl = `${host}:${port}`;
+
+        document.querySelectorAll(".service-link").forEach(link => {
+            const linkPort = link.dataset.port;
+            const href = `http://${host}:${linkPort}`;
+            link.href = href;
+
+            // Подсветка активной ссылки
+            if (`${host}:${linkPort}` === currentUrl) {
+                link.classList.remove("btn-primary");
+                link.classList.add("btn-outline-success");
+                const currentText = document.createElement("span");
+                currentText.style.marginLeft = "10px";
+                currentText.style.fontWeight = "bold";
+                currentText.textContent = "(текущий адрес)";
+                link.appendChild(currentText);
+            }
         });
-    </script>
+    });
+</script>
 
 </body>
 </html>
