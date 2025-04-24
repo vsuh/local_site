@@ -39,8 +39,8 @@
         }
 
         .card-header {
-            background-color: #e8e9fa !important;
-            color:rgb(130, 130, 40) !important;
+            background-color: #e0e0fa !important;
+            color:rgb(156, 156, 49) !important;
             font-weight: bold;
         }
 
