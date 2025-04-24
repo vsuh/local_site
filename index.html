@@ -29,7 +29,7 @@
         }
 
         .card {
-            border-radius: 6px !important;
+            border-radius: 16px !important;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
