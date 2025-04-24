@@ -50,25 +50,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
         <h1 class="text-center" style="font-family: 'Playfair Display', serif;">{{ site.head.title }}</h1>
     </div>
-    <div class="container py-4">
-        <div class="row row-cols-1 row-cols-lg-2 g-4">
-            {% for service_name, service in site.container.links.items() %}
-            <div class="col">
-                <div class="{{ service.class }}">
-                    <div class="vs-name" style="padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: #eee;">
-                        <h3>{{ service.name }}</h3>
-                    </div>
-                    <p class="text-muted vs-desc" style="padding: 10px;">{{ service.description }}</p>
-                    <a href="#" data-port="{{ service.port }}" target="_blank" role="button" class="btn btn-primary float-end service-link">
-                        {{ service.linkname }} →
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
-    
+ 
      
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
