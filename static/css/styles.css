@@ -1,0 +1,92 @@
+/* styles.css */
+
+body {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    background-color: #ddd;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+}
+
+.card {
+    border-radius: 5px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,99,0.2);
+}
+
+.card-header {
+    background-color: #A4A4ff !important;
+    color: rgb(233, 233, 132) !important;
+    font-weight: bold;
+}
+
+.vs-desc {
+    font-size: 1rem;
+    transition: font-size 0.3s ease;
+}
+
+@media (min-width: 992px) {
+    .vs-desc {
+        font-size: 75%;
+    }
+}
+
+.footer {
+    background-color: #f0f0f5;
+    font-size: 0.8em;
+    padding: 10px 20px;
+}
+
+.service-link {
+    transition: all 0.3s ease;
+}
+
+.service-link.current {
+    box-shadow: 0 0 10px rgba(0,255,100,0.6);
+    background-color: #198754 !important;
+    border-color: #198754;
+}
+
+.service-link.current:hover {
+    background-color: #28a745 !important;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+[data-bs-theme="dark"] .card-header {
+    background: linear-gradient(135deg, #444 0%, #222 100%);
+    color: #ffc107 !important;
+}
+
+[data-bs-theme="dark"] .footer {
+    background-color: #1f1f1f;
+    color: #bbb;
+}
+
+/* Стили для одинаковой высоты карточек */
+.row.g-4 > div.col.d-flex {
+    display: flex;
+}
+
+.row.g-4 > div.col.d-flex > .card {
+    display: flex;
+    flex-direction: column;
+}
+
+.row.g-4 > div.col.d-flex > .card > .card-body {
+    flex-grow: 1;
+}
