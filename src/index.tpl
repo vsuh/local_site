@@ -29,7 +29,7 @@
         }
 
         .card {
-            border-radius: 5px !important;
+            border-radius: 12px !important;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -40,7 +40,7 @@
 
         .card-header {
             background-color: #e8e9fa !important;
-            color:rgb(117, 96, 0) !important;
+            color:rgb(100, 100, 20) !important;
             font-weight: bold;
         }
 
