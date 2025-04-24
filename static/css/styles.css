@@ -121,3 +121,42 @@ h1 {
         right: 1rem;
     }
 }
+
+/* Приведение карточек к одинаковой ширине */
+.row.g-4 > .col.d-flex {
+    display: flex;
+}
+
+.row.g-4 > .col.d-flex > .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Убираем flex-grow и даём фиксированную ширину в рамках колонки */
+}
+
+/* Обеспечиваем перекрытие кнопки */
+.card {
+    overflow: visible !important;
+    position: relative; /* Необходимо для абсолютного позиционирования внутри */
+}
+
+.card-body {
+    flex-grow: 1;
+    padding-bottom: 3rem; /* Отступ снизу для кнопки */
+}
+
+/* Кнопка, выступающая за границу карточки */
+.service-link {
+    position: absolute;
+    bottom: -1.2rem; /* Перекрытие нижней границы */
+    right: 1rem; /* Небольшой отступ от правой стороны */
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .service-link {
+        bottom: -1rem;
+        right: 0.8rem;
+    }
+}
