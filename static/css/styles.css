@@ -14,11 +14,6 @@ h1 {
     font-family: 'Playfair Display', serif;
 }
 
-.card {
-    border-radius: 5px !important;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%;
-}
 
 .card:hover {
     transform: translateY(-2px);
@@ -48,19 +43,7 @@ h1 {
     padding: 10px 20px;
 }
 
-.service-link {
-    transition: all 0.3s ease;
-}
 
-.service-link.current {
-    box-shadow: 0 0 10px rgba(0,255,100,0.6);
-    background-color: #198754 !important;
-    border-color: #198754;
-}
-
-.service-link.current:hover {
-    background-color: #28a745 !important;
-}
 
 [data-bs-theme="dark"] body {
     background-color: #121212;
@@ -96,31 +79,13 @@ h1 {
     width: 100%;    /* Занимать всю доступную ширину */
 }
 
-/* Добавьте в конец styles.css */
-.card {
-    overflow: visible !important; /* Разрешаем выход элементов за границы */
-}
+
 
 .card-body {
     position: relative; /* Для абсолютного позиционирования кнопки */
     padding-bottom: 2.5rem; /* Место для выступающей кнопки */
 }
 
-.service-link {
-    position: absolute;
-    right: 1.5rem;
-    bottom: -1.8rem; /* Отрицательное значение для выхода за границу */
-    z-index: 2; /* Чтобы кнопка была поверх следующей карточки */
-    transition: all 0.3s ease !important;
-}
-
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    .service-link {
-        bottom: -1.5rem;
-        right: 1rem;
-    }
-}
 
 /* Приведение карточек к одинаковой ширине */
 .row.g-4 > .col.d-flex {
@@ -133,32 +98,15 @@ h1 {
     width: 100%; /* Убираем flex-grow и даём фиксированную ширину в рамках колонки */
 }
 
-/* Обеспечиваем перекрытие кнопки */
-.card {
-    overflow: visible !important;
-    position: relative; /* Необходимо для абсолютного позиционирования внутри */
-}
 
 .card-body {
     flex-grow: 1;
     padding-bottom: 3rem; /* Отступ снизу для кнопки */
 }
 
-/* Кнопка, выступающая за границу карточки */
-.service-link {
-    position: absolute;
-    bottom: -1.2rem; /* Перекрытие нижней границы */
-    right: 1rem; /* Небольшой отступ от правой стороны */
-    z-index: 2;
-    transition: all 0.3s ease;
-}
 
-/* Мобильная адаптация */
+
 @media (max-width: 768px) {
-    .service-link {
-        bottom: -1rem;
-        right: 0.8rem;
-    }
 }
 
 /* Убедимся, что каждая колонка одинаково ведёт себя */
@@ -167,12 +115,15 @@ h1 {
 }
 
 .card {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    overflow: visible !important;
+    position: relative;
+    border-radius: 5px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 /* Внутри карточки тело растягивается */
 .card-body {
     flex-grow: 1;
@@ -185,11 +136,22 @@ h1 {
     position: absolute;
     bottom: -1.2rem;
     right: 1rem;
-    z-index: 2;
+    z-index: 20;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
 
 /* Адаптация под мобильные */
+.service-link.current {
+    box-shadow: 0 0 10px rgba(0,255,100,0.6);
+    background-color: #198754 !important;
+    border-color: #198754;
+}
+
+.service-link.current:hover {
+    background-color: #28a745 !important;
+}
+
 @media (max-width: 768px) {
     .service-link {
         bottom: -1rem;
