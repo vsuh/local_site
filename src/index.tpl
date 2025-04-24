@@ -10,6 +10,8 @@
 
     <title>{{ site.head.title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         body { font-size: 1.1rem; line-height: 1.5; }
         h1 { font-size: 2.5em; margin-top: 10px; text-align: center; }
@@ -18,29 +20,28 @@
             border: 1px solid #bbb;
             border-radius: 10px;
             padding: 20px;
-            background-color: #fffefb; /* Creamy background */
-            box-shadow: 0 2px 5px rgba(0,0,0,.1); /* Shadow effect */
+            background-color: #fffefb;
+            box-shadow: 0 2px 5px rgba(0,0,0,.1);
             margin-bottom: 20px;
         }
         .vs-desc { font-size: larger; }
-        .vs-name { background-color: #FFD;}
+        .vs-name { background-color: #FFD; }
         .footer {
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
-            background-color: #f0f0f5; /* Grayish footer */
+            background-color: #f0f0f5;
             font-size: 0.8em;
             padding: 10px;
         }
-       .footer > div {
+        .footer > div {
             display: flex;
             justify-content: space-between;
         }
-
         @media (max-width: 768px) {
             .container.py-4 { padding-left: 10px; padding-right: 10px; }
-            .vs-box { font-size: x-large; } /* Larger font size on mobile screens */
+            .vs-box { font-size: x-large; }
         }
     </style>
 </head>
@@ -58,7 +59,7 @@
                         <h3>{{ service.name }}</h3>
                     </div>
                     <p class="text-muted vs-desc" style="padding: 10px;">{{ service.description }}</p>
-                    <a href="HTTP://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
+                    <a href="#" data-port="{{ service.port }}" target="_blank" role="button" class="btn btn-primary float-end service-link">
                         {{ service.linkname }} →
                     </a>
                 </div>
@@ -67,7 +68,7 @@
         </div>
     </div>
 
-    <!-- //////////////////////////////////////////////////////
+    <!--
     <div class="container">
         <div class="footer">
             <div class="left">{{ site.footer.left }}</div>
@@ -76,7 +77,6 @@
         </div>
     </div>
     -->
-
 
     <div class="container py-4">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
@@ -88,12 +88,10 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted card-text vs-desc" style="padding: 10px;">{{ service.description }}</p>
-                            <a href="HTTP://{{ service.link }}" target="_blank" class="btn btn-primary float-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
-                                </svg>
-                                {{ service.linkname }}  
-                            </a> <!--  → -->
+                        <a href="#" data-port="{{ service.port }}" target="_blank" role="button" class="btn btn-primary float-end service-link">
+                            <i class="bi bi-arrow-return-right"></i>
+                            {{ service.linkname }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -101,13 +99,19 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
+    <!-- 🧠 JS для динамической подстановки адресов -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const host = location.hostname;
+            const base = `http://${host}`;
+            document.querySelectorAll(".service-link").forEach(link => {
+                const port = link.dataset.port;
+                if (port) {
+                    link.href = `${base}:${port}`;
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
