@@ -40,7 +40,7 @@
 
         .card-header {
             background-color: #A4A4ff !important;
-            color:rgb(196, 196, 89) !important;
+            color:rgb(233, 233, 132) !important;
             font-weight: bold;
         }
 
