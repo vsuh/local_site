@@ -200,36 +200,27 @@
     </div>
 
     <div class="container">
-        <div class="footer">
+        <div class="footer" style="position: sticky;">
             <div class="left">2025&copy;VSCraft</div>
             <div class="middle"></div>
             <div class="right"><a href='https://github.com/vsuh'>GitHub</a></div>
         </div>
     </div>
 
- <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const host = location.hostname;
-        const port = location.port || (location.protocol === 'https:' ? '443' : '80');
-        const currentUrl = `${host}:${port}`;
-
-        document.querySelectorAll(".service-link").forEach(link => {
-            const linkPort = link.dataset.port;
-            const href = `http://${host}:${linkPort}`;
-            link.href = href;
-
-            // Подсветка активной ссылки
-            if (`${host}:${linkPort}` === currentUrl) {
-                link.classList.remove("btn-primary");
-                link.classList.add("btn-outline-success");
-                const currentText = document.createElement("span");
-                currentText.style.marginLeft = "10px";
-                currentText.style.fontWeight = "bold";
-                currentText.textContent = "(текущий адрес)";
-                link.appendChild(currentText);
-            }
+<script>
+   <!-- 🧠 JS для динамической подстановки адресов -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const host = location.hostname;
+            const base = `http://${host}`;
+            document.querySelectorAll(".service-link").forEach(link => {
+                const port = link.dataset.port;
+                if (port) {
+                    link.href = `${base}:${port}`;
+                }
+            });
         });
-    });
+    </script>
 </script>
 
 </body>
