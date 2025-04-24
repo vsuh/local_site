@@ -160,3 +160,39 @@ h1 {
         right: 0.8rem;
     }
 }
+
+/* Убедимся, что каждая колонка одинаково ведёт себя */
+.row > .col.d-flex {
+    display: flex;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+/* Внутри карточки тело растягивается */
+.card-body {
+    flex-grow: 1;
+    padding-bottom: 3rem; /* для кнопки */
+    position: relative;
+}
+
+/* Кнопка внизу и выходит за пределы карточки */
+.service-link {
+    position: absolute;
+    bottom: -1.2rem;
+    right: 1rem;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Адаптация под мобильные */
+@media (max-width: 768px) {
+    .service-link {
+        bottom: -1rem;
+        right: 0.8rem;
+    }
+}
