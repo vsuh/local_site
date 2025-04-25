@@ -10,14 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const fullUrl = `${base}:${port}`;
             link.href = fullUrl;
 
- /*           if (`${host}:${port}` === currentFull) {
-                link.classList.add("current");
-                const label = document.createElement("span");
-                label.classList.add("ms-2", "fw-bold");
-                label.textContent = " (текущий адрес)";
-                link.appendChild(label);
-            }
-*/
+
         }
     });
 
