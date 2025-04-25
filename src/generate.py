@@ -14,7 +14,7 @@ def generate_html(template_path, json_data_path, output_path):
     with open(output_path, 'w', encoding='utf-8') as outfile:
         outfile.write(rendered_html)
 
-
+# main code
 if __name__ == "__main__":
     template_path = os.path.join(os.getcwd(), 'src', 'index.tpl')
     json_data_path = os.path.join(os.getcwd(), 'src', 'site.json')
