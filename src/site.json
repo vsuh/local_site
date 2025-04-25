@@ -2,7 +2,7 @@
 	"site": {
 		"parameters": {
 			"images": "/static/images",
-			"icon": "/static/icons",
+			"icons": "/static/icons",
 			"css": "/static/css",
 			"scripts": "/static/js"
 		},

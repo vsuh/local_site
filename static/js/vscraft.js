@@ -5,18 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const base = `${location.protocol}//${host}`;
 
     document.querySelectorAll(".service-link").forEach(link => {
-        const port = link.dataset.port;
+        const {port} = link.dataset;
         if (port) {
             const fullUrl = `${base}:${port}`;
             link.href = fullUrl;
 
-            if (`${host}:${port}` === currentFull) {
+ /*           if (`${host}:${port}` === currentFull) {
                 link.classList.add("current");
                 const label = document.createElement("span");
                 label.classList.add("ms-2", "fw-bold");
                 label.textContent = " (текущий адрес)";
                 link.appendChild(label);
             }
+*/
         }
     });
 
