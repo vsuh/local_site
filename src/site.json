@@ -1,7 +1,6 @@
 {
 	"site": {
 		"parameters": {
-			"static": "/static",
 			"images": "/static/images",
 			"icon": "/static/icons",
 			"css": "/static/css",
