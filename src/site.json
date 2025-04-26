@@ -48,6 +48,15 @@
 					"class": "vs-link vs-box",
 					"infolink": "https://transmissionbt.com/download"
 				},
+				"publicnotes": {
+					"name": "Public notes",
+					"linkname": "notes",
+					"description": "My public notes",
+					"link": "https://vsuh.github.io/vpub/",
+					"port": "",
+					"class": "vs-link vs-box",
+					"infolink": "https://vsuh.github.io/vpub/"
+				},
 				"notebene": {
 					"name": "Note Bene",
 					"linkname": "notes",
