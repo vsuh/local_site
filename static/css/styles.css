@@ -93,6 +93,7 @@ h1 {
 [data-bs-theme="dark"] .card-header {
     background: linear-gradient(135deg, #444 0%, #222 100%);
     color: #ffc107 !important;
+    text-shadow: 1px 1px 1px black !important;
 }
 
 [data-bs-theme="dark"] .footer {
