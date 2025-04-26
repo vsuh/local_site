@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-body">
                         <p class="vs-desc text-muted">
-                            {{ service.description }}&nbsp;
+                            {{ service.description }} 
                             <a href='{{ service.infolink }}' class='infolink'>ⓘ</a>
                         </p>
                         <a href="#" data-port="{{ service.port }}" target="_blank" class="btn btn-primary service-link">
