@@ -16,7 +16,7 @@
 					"name": "Portainer",
 					"linkname": "portainer",
 					"description": "Portainer is a universal container management platform",
-					"link": "192.168.2.2:9000",
+					"link": "",
 					"port": "9000",
 					"class": "vs-link vs-box",
 					"infolink": "https://www.portainer.io/install"
@@ -25,7 +25,7 @@
 					"name": "Audiobook Shelf",
 					"linkname": "audiobookshelf",
 					"description": "Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts",
-					"link": "192.168.2.2:1333",
+					"link": "",
 					"port": "1333",
 					"class": "vs-link vs-box",
 					"infolink": "https://github.com/advplyr/audiobookshelf.git"
@@ -34,7 +34,7 @@
 					"name": "Plex",
 					"linkname": "plex",
 					"description": "Plex Media Server: Create, organize, and store your collections.",
-					"link": "192.168.2.2:32400",
+					"link": "",
 					"port": "32400",
 					"class": "vs-link vs-box",
 					"infolink": "https://www.plex.tv/media-server-downloads/"
@@ -43,7 +43,7 @@
 					"name": "Transmission",
 					"linkname": "transmission",
 					"description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux",
-					"link": "192.168.2.2:9091",
+					"link": "",
 					"port": "9091",
 					"class": "vs-link vs-box",
 					"infolink": "https://transmissionbt.com/download"
@@ -61,7 +61,7 @@
 					"name": "Note Bene",
 					"linkname": "notes",
 					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
-					"link": "192.168.2.2:7878",
+					"link": "",
 					"port": "7878",
 					"class": "vs-link vs-box",
 					"infolink": "https://github.com/vsuh/cron-reminder.git"

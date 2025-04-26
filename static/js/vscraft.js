@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const base = `${location.protocol}//${host}`;
 
     document.querySelectorAll(".service-link").forEach(link => {
-        const {port} = link.dataset;
-        if (port) {
-            const fullUrl = `${base}:${port}`;
-            link.href = fullUrl;
+        const { port, link: serviceLink } = link.dataset;
 
-
+        if (serviceLink) {
+            link.href = serviceLink;
+        } else if (port) {
+            link.href = `${base}:${port}`;
         }
     });
 

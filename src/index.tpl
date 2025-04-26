@@ -37,7 +37,7 @@
                             {{ service.description }} 
                             <a href='{{ service.infolink }}' class='infolink'>ⓘ</a>
                         </p>
-                        <a href="#" data-port="{{ service.port }}" target="_blank" class="btn btn-primary service-link">
+                        <a href="#" data-port="{{ service.port }}" data-link="{{ service.link }} target="_blank" class="btn btn-primary service-link">
                             <i class="bi bi-arrow-return-right"></i> {{ service.linkname }}
                         </a>
                     </div>
