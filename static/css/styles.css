@@ -54,10 +54,10 @@ h1 {
 }
 
 .card-header {
-    background-color: #A4A4ff !important;
     color: #0d6efd;
     text-shadow: 1px 1px 1px white;
     font-weight: bold;
+    background-color: #A4A4ff !important;
 }
 
 /* Описание */
