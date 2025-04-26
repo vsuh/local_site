@@ -55,8 +55,9 @@ h1 {
 
 .card-header {
     background-color: #A4A4ff !important;
-    color: rgb(233, 233, 132) !important;
+    color:darkmagenta !important;
     font-weight: bold;
+    text-shadow: 1px 1px 2px pink;
 }
 
 /* Описание */
