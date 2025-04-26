@@ -58,7 +58,7 @@
 					"infolink": "https://vsuh.github.io/vpub/"
 				},
 				"notebene": {
-					"name": "Note Bene",
+					"name": "Notа Bene",
 					"linkname": "notes",
 					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
 					"link": "",
