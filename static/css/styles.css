@@ -78,12 +78,13 @@ h1 {
     padding: 10px 20px;
     bottom: 0;  
     left: 0;
+    height: 5vh;
     width: 100%;
     position: fixed;
     z-index: 50;
 }
 
-/* Темная тема */
+/* Dark theme */
 [data-bs-theme="dark"] body {
     background-color: #121212;
     color: #e0e0e0;
@@ -99,7 +100,7 @@ h1 {
     color: #bbb;
 }
 
-/* Адаптация карточек под разные устройства */
+
 .row.g-4 > .col.d-flex {
     display: flex;
 }
