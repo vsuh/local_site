@@ -113,3 +113,8 @@ h1 {
         right: 0.8rem;
     }
 }
+
+.infolink {
+    font-size: larger;
+    text-decoration: none;
+}

@@ -33,7 +33,10 @@
                         <h3 class="m-0">{{ service.name }}</h3>
                     </div>
                     <div class="card-body">
-                        <p class="vs-desc text-muted">{{ service.description }}</p>
+                        <p class="vs-desc text-muted">
+                            <a href='{{ service.infolink }}' class="infolink">ⓘ</a>&nbsp;
+                            {{ service.description }}
+                        </p>
                         <a href="#" data-port="{{ service.port }}" target="_blank" class="btn btn-primary service-link">
                             <i class="bi bi-arrow-return-right"></i> {{ service.linkname }}
                         </a>
