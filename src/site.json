@@ -65,6 +65,15 @@
 					"port": "7878",
 					"class": "vs-link vs-box",
 					"infolink": "https://github.com/vsuh/reminder-tgm.git"
+				},
+				"quickref": {
+					"name": "Quick Reference",
+					"linkname": "quickref",
+					"description": "Some cheatsheets and quick references contributed by open source angels",
+					"link": "https://quickref.me",
+					"port": "",
+					"class": "vs-link vs-box",
+					"infolink": "https://quickref.me"
 				}
 			}
 		},
