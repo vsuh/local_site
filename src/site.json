@@ -66,6 +66,15 @@
 					"class": "vs-link vs-box",
 					"infolink": "https://github.com/vsuh/reminder-tgm.git"
 				},
+				"syncthing": {
+					"name": "syncthing",
+					"linkname": "sincthing",
+					"description": "Syncthing is an application that lets you synchronize your files across multiple devices.",
+					"link": "",
+					"port": "883",
+					"class": "vs-link vs-box",
+					"infolink": "https://github.com/syncthing/syncthing"
+				},
 				"quickref": {
 					"name": "Quick Reference",
 					"linkname": "quickref",
