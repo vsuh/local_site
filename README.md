@@ -12,3 +12,6 @@ git config --local core.hooksPath .githooks
 chmod +x /githooks/pre-commit
 ```
 
+Результат выглядит так:
+
+![](static/images/index.htm.png)
