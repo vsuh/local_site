@@ -66,6 +66,15 @@
 					"class": "vs-link vs-box",
 					"infolink": "https://github.com/vsuh/reminder-tgm.git"
 				},
+				"notebene": {
+					"name": "Helor powermon",
+					"linkname": "powermon",
+					"description": "Power Consumption Profile for HELOR Server",
+					"link": "",
+					"port": "5000",
+					"class": "vs-link vs-box",
+					"infolink": "https://github.com/vsuh/helor-powermon"
+				},
 				"syncthing": {
 					"name": "syncthing",
 					"linkname": "sincthing",
