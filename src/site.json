@@ -7,7 +7,7 @@
 			"scripts": "/static/js"
 		},
 		"head": {
-			"title": "VSCraft workshop news",
+			"title": "VSCraft workshop",
 			"class": "vs-title"
 		},
 		"container": {
@@ -15,6 +15,7 @@
 				"portainer": {
 					"name": "Portainer",
 					"linkname": "portainer",
+					"tag": "infra",
 					"description": "Portainer is a universal container management platform",
 					"link": "",
 					"port": "9000",
@@ -24,6 +25,7 @@
 				"audiobookshelf": {
 					"name": "Audiobook Shelf",
 					"linkname": "audiobookshelf",
+					"tag": "media",
 					"description": "Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts",
 					"link": "",
 					"port": "1333",
@@ -33,6 +35,7 @@
 				"plex": {
 					"name": "Plex",
 					"linkname": "plex",
+					"tag": "media",
 					"description": "Plex Media Server: Create, organize, and store your collections.",
 					"link": "",
 					"port": "32400",
@@ -42,6 +45,7 @@
 				"transmissionbt": {
 					"name": "Transmission",
 					"linkname": "transmission",
+					"tag": "net",
 					"description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux",
 					"link": "",
 					"port": "9091",
@@ -51,6 +55,7 @@
 				"publicnotes": {
 					"name": "Public notes",
 					"linkname": "notes",
+					"tag": "docs",
 					"description": "My public notes",
 					"link": "https://vsuh.github.io/vpub/",
 					"port": "",
@@ -60,6 +65,7 @@
 				"notebene": {
 					"name": "Notа Bene",
 					"linkname": "notes",
+					"tag": "bot",
 					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
 					"link": "",
 					"port": "7878",
@@ -69,6 +75,7 @@
 				"powermon": {
 					"name": "Helor powermon",
 					"linkname": "powermon",
+					"tag": "infra",
 					"description": "Power Consumption Profile for HELOR Server",
 					"link": "",
 					"port": "5000",
@@ -78,6 +85,7 @@
 				"syncthing": {
 					"name": "syncthing",
 					"linkname": "sincthing",
+					"tag": "sync",
 					"description": "Syncthing is an application that lets you synchronize your files across multiple devices.",
 					"link": "",
 					"port": "883",
@@ -87,6 +95,7 @@
 				"quickref": {
 					"name": "Quick Reference",
 					"linkname": "quickref",
+					"tag": "docs",
 					"description": "Some cheatsheets and quick references contributed by open source angels",
 					"link": "https://quickref.me",
 					"port": "",

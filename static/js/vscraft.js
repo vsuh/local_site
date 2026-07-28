@@ -11,35 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
             link.href = serviceLink;
         } else if (port) {
             link.href = `${base}:${port}`;
+            if (port === currentPort || `${host}:${port}` === currentFull) {
+                link.classList.add('current');
+            }
         }
     });
-
-    const themeSwitcher = document.getElementById('themeSwitcher');
-
-    function setInitialTheme() {
-        const storedTheme = localStorage.getItem('theme');
-        if (storedTheme === 'dark') {
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-            themeSwitcher.checked = true;
-        } else {
-            document.documentElement.removeAttribute('data-bs-theme');
-            themeSwitcher.checked = false;
-        }
-    }
-
-    function saveThemePreference(theme) {
-        localStorage.setItem('theme', theme);
-    }
-
-    themeSwitcher.addEventListener('change', function () {
-        if (this.checked) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-            saveThemePreference('dark');
-        } else {
-            document.documentElement.removeAttribute('data-bs-theme');
-            saveThemePreference('');
-        }
-    });
-
-    setInitialTheme();
 });

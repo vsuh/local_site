@@ -1,124 +1,206 @@
-/* Основные стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    transition: background-color 0.4s ease, color 0.4s ease;
-    background-color: #ddd;
-}
-
-h1 {
-    font-size: 2.5em;
-    margin-top: 10px;
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-}
-
-/* Карточки */
-.card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 99, 0.2);
-}
-
-.card-body {
-    flex-grow: 1;
-    padding-bottom: 3rem; /* Место для кнопки */
-}
-
-.service-link {
-    position: absolute;
-    bottom: -1.2rem;
-    right: 1rem;
-    z-index: 20;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.service-link.current {
-    box-shadow: 0 0 10px rgba(0, 255, 100, 0.6);
-    background-color: #198754 !important;
-    border-color: #198754;
-}
-
-.service-link.current:hover {
-    background-color: #28a745 !important;
-}
-
-.card-header {
-    color: #0d6efd;
-    text-shadow: 1px 1px 1px white;
-    font-weight: bold;
-    background-color: #A4A4ff !important;
-}
-
-/* Описание */
-.vs-desc {
+    background: #0b0f0d;
+    color: #d3e0d8;
+    font-family: 'SF Mono', 'Consolas', 'Courier New', monospace;
     font-size: 1rem;
-    transition: font-size 0.3s ease;
+    line-height: 1.5;
+    padding-bottom: 4rem; /* место для футера */
 }
 
-@media (min-width: 992px) {
-    .vs-desc {
-        font-size: 75%;
+/* Хедер */
+.vs-hero {
+    padding: 2.5rem 1.5rem 1.5rem;
+    border-bottom: 1px solid #1c2b23;
+}
+
+.vs-prompt {
+    color: #4f9c74;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+.vs-hero h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #eafff2;
+    letter-spacing: 0.02em;
+    margin: 0.4rem 0 0.3rem;
+    font-family: inherit;
+}
+
+.vs-cursor {
+    color: #39ff8a;
+    animation: blink 1.2s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.vs-sub {
+    font-size: 0.85rem;
+    color: #6b8577;
+}
+
+/* Сетка карточек */
+.vs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: #1c2b23;
+    padding: 1px;
+    margin: 1.5rem;
+    border: 1px solid #1c2b23;
+}
+
+@media (max-width: 1100px) {
+    .vs-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
-.footer {
-    font-size: 0.8em;
-    background-color: #f0f0f5;
-    padding: 4px 20px;
-    bottom: 0;  
+@media (max-width: 800px) {
+    .vs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .vs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vs-card {
+    background: #0e1512;
+    padding: 1.25rem;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+.vs-card:hover {
+    background: #101c15;
+}
+
+.vs-card:hover::before {
+    content: '';
+    position: absolute;
     left: 0;
-    width: 100%;
-    position: fixed;
-    z-index: 50;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #39ff8a;
+}
+
+.vs-row {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+    gap: 0.5rem;
+}
+
+.vs-name {
+    font-size: 0.95rem;
+    color: #eafff2;
+    font-weight: 500;
+}
+
+.vs-tag {
+    font-size: 0.65rem;
+    color: #4f9c74;
+    border: 1px solid #2a4535;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.vs-desc {
+    font-size: 0.82rem;
+    color: #7d9488;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    min-height: 40px;
+}
+
+.vs-actions {
+    display: flex;
+    gap: 0.6rem;
     align-items: center;
 }
 
-/* Dark theme */
-[data-bs-theme="dark"] body {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-[data-bs-theme="dark"] .card-header {
-    background: linear-gradient(135deg, #444 0%, #222 100%);
-    color: #0d6efd !important;
-    text-shadow: 1px 1px 1px black !important;
-}
-
-[data-bs-theme="dark"] .footer {
-    background-color: #1f1f1f;
-    color: #bbb;
-}
-
-
-.row.g-4 > .col.d-flex {
-    display: flex;
-}
-
-.card-body {
-    flex-grow: 1;
-}
-
-@media (max-width: 768px) {
-    .service-link {
-        bottom: -1rem;
-        right: 0.8rem;
-    }
-}
-
-.infolink {
-    font-size: larger;
+.vs-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: transparent;
+    color: #39ff8a;
     text-decoration: none;
+    border: 1px solid #2a4535;
+    font-size: 0.78rem;
+    transition: all 0.2s;
+}
+
+.vs-btn:hover {
+    background: #39ff8a;
+    color: #0b0f0d;
+    border-color: #39ff8a;
+}
+
+.vs-btn.current {
+    background: #39ff8a;
+    color: #0b0f0d;
+    border-color: #39ff8a;
+}
+
+.vs-info {
+    color: #4f6b5c;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.vs-info:hover {
+    color: #39ff8a;
+}
+
+/* Футер */
+.vs-footer {
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid #1c2b23;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #4f6b5c;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #0b0f0d;
+}
+
+.vs-footer a {
+    color: #4f9c74;
+    text-decoration: none;
+}
+
+.vs-footer a:hover {
+    color: #39ff8a;
+}
+
+@media (max-width: 600px) {
+    .vs-hero h1 {
+        font-size: 1.5rem;
+    }
+    .vs-grid {
+        margin: 1rem;
+    }
 }
