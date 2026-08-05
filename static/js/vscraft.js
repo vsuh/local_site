@@ -1,19 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     const host = location.hostname;
-    const currentPort = location.port || (location.protocol === 'https:' ? '443' : '80');
-    const currentFull = `${host}:${currentPort}`;
     const base = `${location.protocol}//${host}`;
 
-    document.querySelectorAll(".service-link").forEach(link => {
-        const { port, link: serviceLink } = link.dataset;
+    document.querySelectorAll(".service-link, .vs-nav-item[data-port], .vs-nav-item[data-link]").forEach(link => {
+        const port = link.dataset.port;
+        const serviceLink = link.dataset.link;
 
         if (serviceLink) {
             link.href = serviceLink;
         } else if (port) {
             link.href = `${base}:${port}`;
-            if (port === currentPort || `${host}:${port}` === currentFull) {
-                link.classList.add('current');
-            }
         }
     });
 });
