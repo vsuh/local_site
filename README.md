@@ -14,4 +14,4 @@ chmod +x /githooks/pre-commit
 
 Результат выглядит так:
 
-![](static/images/index.htm.png)
+![png](static/images/index.htm.png)

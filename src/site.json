@@ -1,104 +1,105 @@
 {
-	"site": {
-		"parameters": {
-			"images": "/static/images",
-			"icons": "/static/icons",
-			"css": "/static/css",
-			"scripts": "/static/js"
-		},
-		"head": {
-			"title": "VSCraft workshop news",
-			"class": "vs-title"
-		},
-		"container": {
-			"links": {
-				"portainer": {
-					"name": "Portainer",
-					"linkname": "portainer",
-					"description": "Portainer is a universal container management platform",
-					"link": "",
-					"port": "9000",
-					"class": "vs-link vs-box",
-					"infolink": "https://www.portainer.io/install"
-				},
-				"audiobookshelf": {
-					"name": "Audiobook Shelf",
-					"linkname": "audiobookshelf",
-					"description": "Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts",
-					"link": "",
-					"port": "1333",
-					"class": "vs-link vs-box",
-					"infolink": "https://github.com/advplyr/audiobookshelf.git"
-				},
-				"plex": {
-					"name": "Plex",
-					"linkname": "plex",
-					"description": "Plex Media Server: Create, organize, and store your collections.",
-					"link": "",
-					"port": "32400",
-					"class": "vs-link vs-box",
-					"infolink": "https://www.plex.tv/media-server-downloads/"
-				},
-				"transmissionbt": {
-					"name": "Transmission",
-					"linkname": "transmission",
-					"description": "A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux",
-					"link": "",
-					"port": "9091",
-					"class": "vs-link vs-box",
-					"infolink": "https://transmissionbt.com/download"
-				},
-				"publicnotes": {
-					"name": "Public notes",
-					"linkname": "notes",
-					"description": "My public notes",
-					"link": "https://vsuh.github.io/vpub/",
-					"port": "",
-					"class": "vs-link vs-box",
-					"infolink": "https://vsuh.github.io/vpub/"
-				},
-				"notebene": {
-					"name": "Notа Bene",
-					"linkname": "notes",
-					"description": "A simple scheduled reminder for Telegram with cron-like syntax",
-					"link": "",
-					"port": "7878",
-					"class": "vs-link vs-box",
-					"infolink": "https://github.com/vsuh/reminder-tgm.git"
-				},
-				"powermon": {
-					"name": "Helor powermon",
-					"linkname": "powermon",
-					"description": "Power Consumption Profile for HELOR Server",
-					"link": "",
-					"port": "5000",
-					"class": "vs-link vs-box",
-					"infolink": "https://github.com/vsuh/helor-powermon"
-				},
-				"syncthing": {
-					"name": "syncthing",
-					"linkname": "sincthing",
-					"description": "Syncthing is an application that lets you synchronize your files across multiple devices.",
-					"link": "",
-					"port": "883",
-					"class": "vs-link vs-box",
-					"infolink": "https://github.com/syncthing/syncthing"
-				},
-				"quickref": {
-					"name": "Quick Reference",
-					"linkname": "quickref",
-					"description": "Some cheatsheets and quick references contributed by open source angels",
-					"link": "https://quickref.me",
-					"port": "",
-					"class": "vs-link vs-box",
-					"infolink": "https://quickref.me"
-				}
-			}
-		},
-		"footer": {
-			"left": "2025&copy;VSCraft",
-			"middle": "",
-			"right": "<a href='https://github.com/vsuh/local_site.git'>GitHub</a>"
-		}
-	}
+    "site": {
+        "parameters": {
+            "images": "/static/images",
+            "icons": "/static/icons",
+            "css": "/static/css",
+            "scripts": "/static/js"
+        },
+        "head": {
+            "title": "Infrastructure Dashboard",
+            "class": "vs-title",
+            "host": "helor"
+        },
+        "container": {
+            "links": {
+                "portainer": {
+                    "name": "Portainer",
+                    "linkname": "open",
+                    "description": "Universal container management platform",
+                    "link": "",
+                    "port": "9000",
+                    "tag": "infra",
+                    "infolink": "https://www.portainer.io/install"
+                },
+                "audiobookshelf": {
+                    "name": "Audiobook Shelf",
+                    "linkname": "open",
+                    "description": "Self-hosted server for audiobooks and podcasts",
+                    "link": "",
+                    "port": "1333",
+                    "tag": "media",
+                    "infolink": "https://github.com/advplyr/audiobookshelf.git"
+                },
+                "plex": {
+                    "name": "Plex",
+                    "linkname": "open",
+                    "description": "Organize and stream your media collections",
+                    "link": "",
+                    "port": "32400",
+                    "tag": "media",
+                    "infolink": "https://www.plex.tv/media-server-downloads/"
+                },
+                "transmissionbt": {
+                    "name": "Transmission",
+                    "linkname": "open",
+                    "description": "Fast, easy and free bittorrent client",
+                    "link": "",
+                    "port": "9091",
+                    "tag": "net",
+                    "infolink": "https://transmissionbt.com/download"
+                },
+                "publicnotes": {
+                    "name": "Public Notes",
+                    "linkname": "open",
+                    "description": "My public notes and knowledge base",
+                    "link": "https://vsuh.github.io/vpub/",
+                    "port": "",
+                    "tag": "docs",
+                    "infolink": "https://vsuh.github.io/vpub/"
+                },
+                "notebene": {
+                    "name": "Nota Bene",
+                    "linkname": "open",
+                    "description": "Scheduled reminders for Telegram via cron syntax",
+                    "link": "",
+                    "port": "7878",
+                    "tag": "bot",
+                    "infolink": "https://github.com/vsuh/reminder-tgm.git"
+                },
+                "powermon": {
+                    "name": "Powermon",
+                    "linkname": "open",
+                    "description": "Power consumption profile for HELOR server",
+                    "link": "",
+                    "port": "5000",
+                    "tag": "infra",
+                    "infolink": "https://github.com/vsuh/helor-powermon"
+                },
+                "syncthing": {
+                    "name": "Syncthing",
+                    "linkname": "open",
+                    "description": "Synchronize files across multiple devices",
+                    "link": "",
+                    "port": "883",
+                    "tag": "sync",
+                    "infolink": "https://github.com/syncthing/syncthing"
+                },
+                "quickref": {
+                    "name": "Quick Reference",
+                    "linkname": "open",
+                    "description": "Cheatsheets and quick references from open source",
+                    "link": "https://quickref.me",
+                    "port": "",
+                    "tag": "docs",
+                    "infolink": "https://quickref.me"
+                }
+            }
+        },
+        "footer": {
+            "left": "2025 © VSCraft",
+            "middle": "",
+            "right": "<a href='https://github.com/vsuh/local_site.git'>GitHub</a>"
+        }
+    }
 }

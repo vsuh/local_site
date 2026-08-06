@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-bs-theme="auto">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,190 +7,235 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
     <link rel="manifest" href="/static/icons/site.webmanifest">
-
-    <title>VSCraft workshop news</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <title>Infrastructure Dashboard</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
 
-    <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="text-center flex-fill">VSCraft workshop news</h1>
-        <div class="form-check form-switch ms-auto">
-            <input class="form-check-input" title="dark/light theme" type="checkbox" id="themeSwitcher" role="switch">
-            <label class="form-check-label visually-hidden" for="themeSwitcher">Темная тема</label>
+    <!-- Sidebar -->
+    <aside class="vs-sidebar">
+        <div class="vs-logo">
+            <span class="vs-logo-main">VSCraft</span>
+            <span class="vs-logo-sub">Workshop</span>
         </div>
-    </div>
 
-    <div class="container py-4">
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Portainer</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Portainer is a universal container management platform 
-                            <a href='https://www.portainer.io/install' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="9000" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> portainer
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Audiobook Shelf</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Audiobookshelf is an open-source self-hosted media server for your audiobooks and podcasts 
-                            <a href='https://github.com/advplyr/audiobookshelf.git' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="1333" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> audiobookshelf
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Plex</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Plex Media Server: Create, organize, and store your collections. 
-                            <a href='https://www.plex.tv/media-server-downloads/' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="32400" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> plex
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Transmission</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            A Fast, Easy and Free Bittorrent Client For macOS, Windows and Linux 
-                            <a href='https://transmissionbt.com/download' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="9091" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> transmission
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Public notes</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            My public notes 
-                            <a href='https://vsuh.github.io/vpub/' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="" data-link="https://vsuh.github.io/vpub/" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> notes
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Notа Bene</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            A simple scheduled reminder for Telegram with cron-like syntax 
-                            <a href='https://github.com/vsuh/reminder-tgm.git' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="7878" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> notes
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Helor powermon</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Power Consumption Profile for HELOR Server 
-                            <a href='https://github.com/vsuh/helor-powermon' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="5000" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> powermon
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">syncthing</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Syncthing is an application that lets you synchronize your files across multiple devices. 
-                            <a href='https://github.com/syncthing/syncthing' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="883" data-link="" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> sincthing
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card shadow-sm border-1 h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">Quick Reference</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="vs-desc text-muted">
-                            Some cheatsheets and quick references contributed by open source angels 
-                            <a href='https://quickref.me' class='infolink'>ⓘ</a>
-                        </p>
-                        <a href="#" data-port="" data-link="https://quickref.me" target="_blank" class="btn btn-primary service-link">
-                            <i class="bi bi-arrow-return-right"></i> quickref
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </div>
+        <nav>
+            <div class="vs-nav-label">Services</div>
+            <ul class="vs-nav">
+                
+                <li>
+                    <a href="#" data-port="9000" data-link=""
+                       class="vs-nav-item tag-infra" target="_blank">
+                        <span class="vs-dot tag-infra"></span>
+                        Portainer
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="1333" data-link=""
+                       class="vs-nav-item tag-media" target="_blank">
+                        <span class="vs-dot tag-media"></span>
+                        Audiobook Shelf
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="32400" data-link=""
+                       class="vs-nav-item tag-media" target="_blank">
+                        <span class="vs-dot tag-media"></span>
+                        Plex
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="9091" data-link=""
+                       class="vs-nav-item tag-net" target="_blank">
+                        <span class="vs-dot tag-net"></span>
+                        Transmission
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="" data-link="https://vsuh.github.io/vpub/"
+                       class="vs-nav-item tag-docs" target="_blank">
+                        <span class="vs-dot tag-docs"></span>
+                        Public Notes
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="7878" data-link=""
+                       class="vs-nav-item tag-bot" target="_blank">
+                        <span class="vs-dot tag-bot"></span>
+                        Nota Bene
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="5000" data-link=""
+                       class="vs-nav-item tag-infra" target="_blank">
+                        <span class="vs-dot tag-infra"></span>
+                        Powermon
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="883" data-link=""
+                       class="vs-nav-item tag-sync" target="_blank">
+                        <span class="vs-dot tag-sync"></span>
+                        Syncthing
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" data-port="" data-link="https://quickref.me"
+                       class="vs-nav-item tag-docs" target="_blank">
+                        <span class="vs-dot tag-docs"></span>
+                        Quick Reference
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
 
-    <footer class="footer w-100 mt-5">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between">
-                <div>2025&copy;VSCraft</div>
-                <div></div>
-                <div><a href='https://github.com/vsuh/local_site.git'>GitHub</a></div>
-            </div>
+        <div class="vs-sidebar-status">
+            <div class="vs-status-line">● ONLINE · 9/9</div>
+            <div class="vs-status-line dim">helor · local</div>
         </div>
+    </aside>
+
+    <!-- Header -->
+    <header class="vs-header">
+        <span class="vs-header-title">Infrastructure Dashboard</span>
+        <div class="vs-header-ping">
+            <span class="vs-ping-dot"></span>
+            All systems are go
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="vs-main">
+
+        <!-- Column 1: infra + net + sync -->
+        <div class="vs-col">
+            <div class="vs-col-label tag-infra">
+                <span class="vs-dot tag-infra"></span>infra · net · sync
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Portainer</span>
+                    <span class="vs-service-port">:9000</span>
+                </div>
+                <div class="vs-service-desc">Universal container management platform</div>
+                <a href="#" data-port="9000" data-link=""
+                   class="service-link tag-infra" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Transmission</span>
+                    <span class="vs-service-port">:9091</span>
+                </div>
+                <div class="vs-service-desc">Fast, easy and free bittorrent client</div>
+                <a href="#" data-port="9091" data-link=""
+                   class="service-link tag-net" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Powermon</span>
+                    <span class="vs-service-port">:5000</span>
+                </div>
+                <div class="vs-service-desc">Power consumption profile for HELOR server</div>
+                <a href="#" data-port="5000" data-link=""
+                   class="service-link tag-infra" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Syncthing</span>
+                    <span class="vs-service-port">:883</span>
+                </div>
+                <div class="vs-service-desc">Synchronize files across multiple devices</div>
+                <a href="#" data-port="883" data-link=""
+                   class="service-link tag-sync" target="_blank">→ open</a>
+            </div>
+            
+        </div>
+
+        <!-- Column 2: media -->
+        <div class="vs-col">
+            <div class="vs-col-label tag-media">
+                <span class="vs-dot tag-media"></span>media
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Audiobook Shelf</span>
+                    <span class="vs-service-port">:1333</span>
+                </div>
+                <div class="vs-service-desc">Self-hosted server for audiobooks and podcasts</div>
+                <a href="#" data-port="1333" data-link=""
+                   class="service-link tag-media" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Plex</span>
+                    <span class="vs-service-port">:32400</span>
+                </div>
+                <div class="vs-service-desc">Organize and stream your media collections</div>
+                <a href="#" data-port="32400" data-link=""
+                   class="service-link tag-media" target="_blank">→ open</a>
+            </div>
+            
+        </div>
+
+        <!-- Column 3: docs + bot -->
+        <div class="vs-col">
+            <div class="vs-col-label tag-tools">
+                <span class="vs-dot tag-net"></span>tools · docs
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Public Notes</span>
+                    <span class="vs-service-port">↗ ext</span>
+                </div>
+                <div class="vs-service-desc">My public notes and knowledge base</div>
+                <a href="#" data-port="" data-link="https://vsuh.github.io/vpub/"
+                   class="service-link tag-docs" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Nota Bene</span>
+                    <span class="vs-service-port">:7878</span>
+                </div>
+                <div class="vs-service-desc">Scheduled reminders for Telegram via cron syntax</div>
+                <a href="#" data-port="7878" data-link=""
+                   class="service-link tag-bot" target="_blank">→ open</a>
+            </div>
+            
+            <div class="vs-service">
+                <div class="vs-service-header">
+                    <span class="vs-service-name">Quick Reference</span>
+                    <span class="vs-service-port">↗ ext</span>
+                </div>
+                <div class="vs-service-desc">Cheatsheets and quick references from open source</div>
+                <a href="#" data-port="" data-link="https://quickref.me"
+                   class="service-link tag-docs" target="_blank">→ open</a>
+            </div>
+            
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="vs-footer">
+        <span class="vs-footer-left">2025 © VSCraft</span>
+        <div class="vs-footer-right"><a href='https://github.com/vsuh/local_site.git'>GitHub</a></div>
     </footer>
 
     <script src="/static/js/vscraft.js"></script>
