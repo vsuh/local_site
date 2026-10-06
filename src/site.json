@@ -70,7 +70,7 @@
                 "obsidian": {
                     "name": "Obsidian",
                     "linkname": "open",
-                    "description": "Obsidian",
+                    "description": "The free and flexible app for your private thoughts",
                     "link": "",
                     "port": "8080",
                     "tag": "docs",
