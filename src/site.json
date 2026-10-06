@@ -76,6 +76,15 @@
                     "tag": "docs",
                     "infolink": "https://obsidian.md/ru/"
                 },
+                "sleepmon": {
+                    "name": "Sleep-Monitor",
+                    "linkname": "open",
+                    "description": "Дневник самочувствия",
+                    "link": "",
+                    "port": "8000",
+                    "tag": "docs",
+                    "infolink": ""
+                },
                 "powermon": {
                     "name": "Powermon",
                     "linkname": "open",
