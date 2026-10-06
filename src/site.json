@@ -67,6 +67,15 @@
                     "tag": "bot",
                     "infolink": "https://github.com/vsuh/reminder-tgm.git"
                 },
+                "obsidian": {
+                    "name": "Obsidian",
+                    "linkname": "open",
+                    "description": "Obsidian",
+                    "link": "",
+                    "port": "8080",
+                    "tag": "docs",
+                    "infolink": "https://obsidian.md/ru/"
+                },
                 "powermon": {
                     "name": "Powermon",
                     "linkname": "open",
