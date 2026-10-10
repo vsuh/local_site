@@ -81,7 +81,7 @@
                     "linkname": "open",
                     "description": "Дневник самочувствия",
                     "link": "",
-                    "port": "8000",
+                    "port": "8011",
                     "tag": "docs",
                     "infolink": ""
                 },
