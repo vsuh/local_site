@@ -4,9 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     const healthUrl = body.dataset.healthUrl || "/static/health.json";
     const configuredInterval = Number(body.dataset.healthInterval);
-    const refreshInterval = Number.isFinite(configuredInterval) && configuredInterval > 0
+    const configuredTimeout = Number(body.dataset.healthTimeout);
+    const defaultIntervalMs = Number.isFinite(configuredInterval) && configuredInterval > 0
         ? configuredInterval * 1000
         : 30000;
+    const healthTimeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0
+        ? configuredTimeout * 1000
+        : 3000;
 
     const serviceLinks = [...document.querySelectorAll(".service-link, .vs-nav-item[data-port], .vs-nav-item[data-link]")];
     serviceLinks.forEach(link => {
@@ -18,6 +22,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const cards = [...document.querySelectorAll(".vs-service")];
+    const serviceIntervals = cards
+        .map(card => Number(card.querySelector(".service-link")?.dataset.healthInterval))
+        .filter(seconds => Number.isFinite(seconds) && seconds > 0)
+        .map(seconds => seconds * 1000);
+    const refreshInterval = serviceIntervals.length
+        ? Math.min(defaultIntervalMs, ...serviceIntervals)
+        : defaultIntervalMs;
+    const maxServiceIntervalMs = serviceIntervals.length
+        ? Math.max(defaultIntervalMs, ...serviceIntervals)
+        : defaultIntervalMs;
+    let refreshTimer = null;
+    let activeRequest = null;
+    let requestTimeout = null;
+    let refreshInProgress = false;
+
+    function isPageActive() {
+        return document.visibilityState === "visible" && document.hasFocus();
+    }
+
+    function scheduleRefresh() {
+        if (!isPageActive() || refreshTimer !== null) return;
+        refreshTimer = window.setTimeout(() => {
+            refreshTimer = null;
+            refreshHealth();
+        }, refreshInterval);
+    }
+
+    function pauseRefresh() {
+        if (refreshTimer !== null) {
+            window.clearTimeout(refreshTimer);
+            refreshTimer = null;
+        }
+        if (activeRequest) activeRequest.abort();
+    }
+
+    function syncRefreshState() {
+        if (isPageActive()) {
+            if (refreshTimer === null && !refreshInProgress) refreshHealth();
+        } else {
+            pauseRefresh();
+        }
+    }
     const statusLine = document.querySelector(".vs-sidebar-status .vs-status-line:not(.dim)");
     const headerPing = document.querySelector(".vs-header-ping");
     let latestStatuses = new Map();
@@ -87,6 +133,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function refreshHealth() {
+        if (!isPageActive() || refreshInProgress) return;
+        refreshInProgress = true;
+        activeRequest = new AbortController();
+        requestTimeout = window.setTimeout(() => activeRequest?.abort(), healthTimeoutMs);
         cards.forEach(card => {
             const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
             if (port) setCardStatus(card, "checking", "Waiting for the server health-check data.");
@@ -96,13 +146,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const separator = healthUrl.includes("?") ? "&" : "?";
             const response = await fetch(`${healthUrl}${separator}_=${Date.now()}`, {
                 cache: "no-store",
-                headers: { "Accept": "application/json" }
+                headers: { "Accept": "application/json" },
+                signal: activeRequest.signal
             });
             if (!response.ok) throw new Error(`Health endpoint returned HTTP ${response.status}`);
             const data = await response.json();
             if (!data || typeof data.services !== "object") throw new Error("Invalid health-check payload");
             const updatedAt = Date.parse(data.updated_at || "");
-            const staleAfterMs = Math.max(refreshInterval * 2, 120000);
+            const staleAfterMs = Math.max(refreshInterval * 2, maxServiceIntervalMs * 2, 120000);
             if (!Number.isFinite(updatedAt) || Date.now() - updatedAt > staleAfterMs) {
                 throw new Error("Server health data is stale; check that the health-check process is running.");
             }
@@ -127,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setCardStatus(card, status, [checked, reason.trim()].filter(Boolean).join(" · "));
             });
         } catch (error) {
+            if (error.name === "AbortError" && !isPageActive()) return;
             healthAvailable = false;
             cards.forEach(card => {
                 const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
@@ -134,8 +186,17 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
         updateSummary();
+        } finally {
+            if (requestTimeout !== null) window.clearTimeout(requestTimeout);
+            requestTimeout = null;
+            activeRequest = null;
+            refreshInProgress = false;
+            scheduleRefresh();
+        }
     }
 
-    refreshHealth();
-    window.setInterval(refreshHealth, refreshInterval);
+    document.addEventListener("visibilitychange", syncRefreshState);
+    window.addEventListener("focus", syncRefreshState);
+    window.addEventListener("blur", pauseRefresh);
+    syncRefreshState();
 });
