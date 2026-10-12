@@ -62,8 +62,8 @@
                     "name": "Nota Bene",
                     "linkname": "open",
                     "description": "Scheduled reminders for Telegram via cron syntax",
-                    "link": "",
-                    "port": "7878",
+                    "link": "https://cyxux.duckdns.org:799",
+                    "port": "",
                     "tag": "bot",
                     "infolink": "https://github.com/vsuh/reminder-tgm.git"
                 },
