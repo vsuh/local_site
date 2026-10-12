@@ -21,7 +21,7 @@ def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
-def check_service(service_id, service, timeout):
+def check_service(service_id, service, timeout, interval):
     port_value = str(service.get("port", "")).strip()
     if not port_value:
         return service_id, {
@@ -29,6 +29,8 @@ def check_service(service_id, service, timeout):
             "port": None,
             "status": "external",
             "checked_at": utc_now(),
+            "interval_seconds": interval,
+            "timeout_seconds": timeout,
         }
 
     try:
@@ -46,6 +48,8 @@ def check_service(service_id, service, timeout):
             "status": "online",
             "checked_at": utc_now(),
             "response_time_ms": elapsed_ms,
+            "interval_seconds": interval,
+            "timeout_seconds": timeout,
         }
     except (OSError, ValueError) as error:
         return service_id, {
@@ -55,6 +59,8 @@ def check_service(service_id, service, timeout):
             "status": "offline",
             "checked_at": utc_now(),
             "error": str(error),
+            "interval_seconds": interval,
+            "timeout_seconds": timeout,
         }
 
 
@@ -76,43 +82,74 @@ def write_json_atomic(path, payload):
 
 
 def run(config_path, output_path, once=False):
+    last_checked = {}
+    results = {}
+
     while True:
-        started = time.monotonic()
         try:
             with config_path.open("r", encoding="utf-8") as source:
                 config = json.load(source)["site"]
             settings = config.get("healthcheck", {})
-            interval = max(1.0, float(settings.get("interval_seconds", 30)))
-            timeout = max(0.1, float(settings.get("timeout_seconds", 3)))
+            default_interval = max(1.0, float(settings.get("interval_seconds", 30)))
+            default_timeout = max(0.1, float(settings.get("timeout_seconds", 3)))
             services = config.get("container", {}).get("links", {})
-            results = {}
-            workers = max(1, min(32, len(services) or 1))
-            with ThreadPoolExecutor(max_workers=workers) as pool:
-                futures = [
-                    pool.submit(check_service, service_id, service, timeout)
-                    for service_id, service in services.items()
-                ]
-                for future in as_completed(futures):
-                    service_id, result = future.result()
-                    results[service_id] = result
-            payload = {
-                "updated_at": utc_now(),
-                "interval_seconds": interval,
-                "timeout_seconds": timeout,
-                "services": results,
-            }
-            write_json_atomic(output_path, payload)
-            print(f"[{payload['updated_at']}] wrote {len(results)} service statuses to {output_path}", flush=True)
+            active_ids = set(services)
+            results = {key: value for key, value in results.items() if key in active_ids}
+            last_checked = {key: value for key, value in last_checked.items() if key in active_ids}
+            now = time.monotonic()
+            due = []
+
+            for service_id, service in services.items():
+                interval = max(1.0, float(service.get("interval_seconds", default_interval)))
+                timeout = max(0.1, float(service.get("timeout_seconds", default_timeout)))
+                if service_id not in results or now - last_checked.get(service_id, 0) >= interval:
+                    due.append((service_id, service, timeout, interval))
+
+            if due:
+                workers = max(1, min(32, len(due)))
+                with ThreadPoolExecutor(max_workers=workers) as pool:
+                    futures = {
+                        pool.submit(check_service, service_id, service, timeout, interval):
+                        (service_id, interval)
+                        for service_id, service, timeout, interval in due
+                    }
+                    for future in as_completed(futures):
+                        service_id, _interval = futures[future]
+                        result_id, result = future.result()
+                        results[result_id] = result
+                        last_checked[result_id] = time.monotonic()
+
+                payload = {
+                    "updated_at": utc_now(),
+                    "interval_seconds": default_interval,
+                    "timeout_seconds": default_timeout,
+                    "services": results,
+                }
+                write_json_atomic(output_path, payload)
+                print(
+                    f"[{payload['updated_at']}] checked {len(due)} services; "
+                    f"published {len(results)} statuses to {output_path}",
+                    flush=True,
+                )
+
+            if once:
+                return
+
+            # Re-read configuration regularly, but only check each service when its
+            # own interval expires. This also picks up configuration changes quickly.
+            next_due = []
+            now = time.monotonic()
+            for service_id, service in services.items():
+                interval = max(1.0, float(service.get("interval_seconds", default_interval)))
+                next_due.append(max(0.1, interval - (now - last_checked.get(service_id, now))))
+            sleep_for = min([1.0, *next_due]) if next_due else 1.0
+            time.sleep(sleep_for)
+
         except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
             print(f"Health check failed: {error}", flush=True)
             if once:
                 raise
-            interval = 30
-
-        if once:
-            return
-        remaining = max(0.0, interval - (time.monotonic() - started))
-        time.sleep(remaining)
+            time.sleep(1)
 
 
 def main():
