@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     const healthUrl = body.dataset.healthUrl || "/static/health.json";
     const configuredInterval = Number(body.dataset.healthInterval);
-    const refreshInterval = Number.isFinite(configuredInterval) && configuredInterval > 0
+    const defaultIntervalMs = Number.isFinite(configuredInterval) && configuredInterval > 0
         ? configuredInterval * 1000
         : 30000;
+    // This is the deadline for fetching the JSON document, independent of TCP
+    // connection timeouts used by the server-side health checker.
+    const healthFetchTimeoutMs = 10000;
 
     const serviceLinks = [...document.querySelectorAll(".service-link, .vs-nav-item[data-port], .vs-nav-item[data-link]")];
     serviceLinks.forEach(link => {
@@ -18,14 +21,61 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const cards = [...document.querySelectorAll(".vs-service")];
+    const serviceIntervals = cards
+        .map(card => Number(card.querySelector(".service-link")?.dataset.healthInterval))
+        .filter(seconds => Number.isFinite(seconds) && seconds > 0)
+        .map(seconds => seconds * 1000);
+    const refreshInterval = serviceIntervals.length
+        ? Math.min(defaultIntervalMs, ...serviceIntervals)
+        : defaultIntervalMs;
+    const maxServiceIntervalMs = serviceIntervals.length
+        ? Math.max(defaultIntervalMs, ...serviceIntervals)
+        : defaultIntervalMs;
+    let refreshTimer = null;
+    let activeRequest = null;
+    let requestTimeout = null;
+    let refreshInProgress = false;
+    let refreshAbortedForPause = false;
+    let refreshAgainImmediately = false;
+    let requestTimedOut = false;
+
+    function isPageActive() {
+        return document.visibilityState === "visible" && document.hasFocus();
+    }
+
+    function scheduleRefresh() {
+        if (!isPageActive() || refreshTimer !== null) return;
+        refreshTimer = window.setTimeout(() => {
+            refreshTimer = null;
+            refreshHealth();
+        }, refreshInterval);
+    }
+
+    function pauseRefresh() {
+        if (refreshTimer !== null) {
+            window.clearTimeout(refreshTimer);
+            refreshTimer = null;
+        }
+        if (activeRequest) {
+            refreshAbortedForPause = true;
+            activeRequest.abort();
+        }
+    }
+
+    function syncRefreshState() {
+        if (isPageActive()) {
+            if (refreshTimer === null && !refreshInProgress) refreshHealth();
+        } else {
+            pauseRefresh();
+        }
+    }
     const statusLine = document.querySelector(".vs-sidebar-status .vs-status-line:not(.dim)");
     const headerPing = document.querySelector(".vs-header-ping");
     let latestStatuses = new Map();
     let healthAvailable = false;
 
     cards.forEach(card => {
-        const link = card.querySelector(".service-link");
-        const port = (link?.dataset.port || "").trim();
+        const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
         const badge = document.createElement("span");
         badge.className = "vs-service-status " + (port ? "is-checking" : "is-external");
         badge.textContent = port ? "Checking" : "External";
@@ -87,6 +137,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function refreshHealth() {
+        if (!isPageActive() || refreshInProgress) return;
+        refreshInProgress = true;
+        refreshAbortedForPause = false;
+        refreshAgainImmediately = false;
+        requestTimedOut = false;
+        activeRequest = new AbortController();
+        requestTimeout = window.setTimeout(() => {
+            requestTimedOut = true;
+            activeRequest?.abort();
+        }, healthFetchTimeoutMs);
         cards.forEach(card => {
             const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
             if (port) setCardStatus(card, "checking", "Waiting for the server health-check data.");
@@ -96,13 +156,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const separator = healthUrl.includes("?") ? "&" : "?";
             const response = await fetch(`${healthUrl}${separator}_=${Date.now()}`, {
                 cache: "no-store",
-                headers: { "Accept": "application/json" }
+                headers: { "Accept": "application/json" },
+                signal: activeRequest.signal
             });
             if (!response.ok) throw new Error(`Health endpoint returned HTTP ${response.status}`);
             const data = await response.json();
             if (!data || typeof data.services !== "object") throw new Error("Invalid health-check payload");
             const updatedAt = Date.parse(data.updated_at || "");
-            const staleAfterMs = Math.max(refreshInterval * 2, 120000);
+            const staleAfterMs = Math.max(refreshInterval * 2, maxServiceIntervalMs * 2, 120000);
             if (!Number.isFinite(updatedAt) || Date.now() - updatedAt > staleAfterMs) {
                 throw new Error("Server health data is stale; check that the health-check process is running.");
             }
@@ -127,15 +188,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 setCardStatus(card, status, [checked, reason.trim()].filter(Boolean).join(" · "));
             });
         } catch (error) {
+            if (error.name === "AbortError" && !requestTimedOut) {
+                // A request cancelled because the page lost focus is not a health
+                // endpoint failure. If focus returned before rejection was handled,
+                // retry immediately instead of waiting for the regular interval.
+                if (isPageActive()) refreshAgainImmediately = true;
+                return;
+            }
             healthAvailable = false;
+            const reason = requestTimedOut ? "Health endpoint request timed out." : error.message;
             cards.forEach(card => {
                 const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
-                if (port) setCardStatus(card, "unknown", `Could not read server health data: ${error.message}`);
+                if (port) setCardStatus(card, "unknown", `Could not read server health data: ${reason}`);
             });
+        } finally {
+            if (requestTimeout !== null) window.clearTimeout(requestTimeout);
+            requestTimeout = null;
+            activeRequest = null;
+            refreshInProgress = false;
+            const refreshImmediately = refreshAgainImmediately;
+            refreshAgainImmediately = false;
+            refreshAbortedForPause = false;
+            if (refreshImmediately && isPageActive()) refreshHealth();
+            else scheduleRefresh();
         }
         updateSummary();
     }
 
-    refreshHealth();
-    window.setInterval(refreshHealth, refreshInterval);
+    document.addEventListener("visibilitychange", syncRefreshState);
+    window.addEventListener("focus", syncRefreshState);
+    window.addEventListener("blur", pauseRefresh);
+    syncRefreshState();
 });
