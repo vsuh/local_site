@@ -25,6 +25,7 @@
                 {% for key, svc in site.container.links.items() %}
                 <li>
                     <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                       data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                        class="vs-nav-item tag-{{ svc.tag }}" target="_blank">
                         <span class="vs-dot tag-{{ svc.tag }}"></span>
                         {{ svc.name }}
