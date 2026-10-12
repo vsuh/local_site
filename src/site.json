@@ -85,6 +85,15 @@
                     "tag": "docs",
                     "infolink": ""
                 },
+                "sleepmon": {
+                    "name": "Weather-Table",
+                    "linkname": "open",
+                    "description": "Графики погоды",
+                    "link": "",
+                    "port": "8000",
+                    "tag": "media",
+                    "infolink": ""
+                },
                 "powermon": {
                     "name": "Powermon",
                     "linkname": "open",
