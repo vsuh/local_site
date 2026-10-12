@@ -188,7 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 setCardStatus(card, status, [checked, reason.trim()].filter(Boolean).join(" · "));
             });
         } catch (error) {
-            if (error.name === "AbortError" && refreshAbortedForPause) {
+            if (error.name === "AbortError" && !requestTimedOut) {
+                // A request cancelled because the page lost focus is not a health
+                // endpoint failure. If focus returned before rejection was handled,
+                // retry immediately instead of waiting for the regular interval.
                 if (isPageActive()) refreshAgainImmediately = true;
                 return;
             }
