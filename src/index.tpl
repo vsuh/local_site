@@ -10,7 +10,7 @@
     <title>{{ site.head.title }}</title>
     <link rel="stylesheet" href="{{ site.parameters.css }}/styles.css">
 </head>
-<body data-health-url="{{ site.parameters.health }}" data-health-interval="{{ site.healthcheck.interval_seconds }}" data-health-timeout="{{ site.healthcheck.timeout_seconds }}">
+<body data-health-url="{{ site.parameters.health }}" data-health-interval="{{ site.healthcheck.interval_seconds }}">
 
     <!-- Sidebar -->
     <aside class="vs-sidebar">
@@ -24,7 +24,7 @@
             <ul class="vs-nav">
                 {% for key, svc in site.container.links.items() %}
                 <li>
-                    <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}" data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}" data-health-timeout="{{ svc.timeout_seconds | default(site.healthcheck.timeout_seconds) }}"
+                    <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
                        class="vs-nav-item tag-{{ svc.tag }}" target="_blank">
                         <span class="vs-dot tag-{{ svc.tag }}"></span>
                         {{ svc.name }}
@@ -65,6 +65,7 @@
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
                 <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                   data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
             {% endfor %}
@@ -83,6 +84,7 @@
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
                 <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                   data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
             {% endfor %}
@@ -101,6 +103,7 @@
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
                 <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                   data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
             {% endfor %}
