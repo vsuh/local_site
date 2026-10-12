@@ -7,6 +7,9 @@ import os
 import socket
 import tempfile
 import time
+import urllib.error
+import urllib.parse
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -24,14 +27,69 @@ def utc_now():
 def check_service(service_id, service, timeout, interval):
     port_value = str(service.get("port", "")).strip()
     if not port_value:
-        return service_id, {
-            "name": service.get("name", service_id),
-            "port": None,
-            "status": "external",
-            "checked_at": utc_now(),
-            "interval_seconds": interval,
-            "timeout_seconds": timeout,
-        }
+        url = str(service.get("link", "")).strip()
+        if not url:
+            return service_id, {
+                "name": service.get("name", service_id),
+                "port": None,
+                "status": "external",
+                "checked_at": utc_now(),
+                "interval_seconds": interval,
+                "timeout_seconds": timeout,
+            }
+
+        started = time.monotonic()
+        try:
+            parsed_url = urllib.parse.urlsplit(url)
+            if parsed_url.scheme not in ("http", "https") or not parsed_url.netloc:
+                raise ValueError("external link must be an absolute HTTP(S) URL")
+            request = urllib.request.Request(
+                url,
+                headers={"User-Agent": "local-site-healthcheck/1.0"},
+            )
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                status_code = response.status
+            elapsed_ms = round((time.monotonic() - started) * 1000)
+            status = "online" if 200 <= status_code < 400 else "offline"
+            result = {
+                "name": service.get("name", service_id),
+                "port": None,
+                "url": url,
+                "status": status,
+                "status_code": status_code,
+                "checked_at": utc_now(),
+                "response_time_ms": elapsed_ms,
+                "interval_seconds": interval,
+                "timeout_seconds": timeout,
+            }
+            if status == "offline":
+                result["error"] = f"HTTP {status_code}"
+            return service_id, result
+        except urllib.error.HTTPError as error:
+            elapsed_ms = round((time.monotonic() - started) * 1000)
+            return service_id, {
+                "name": service.get("name", service_id),
+                "port": None,
+                "url": url,
+                "status": "offline",
+                "status_code": error.code,
+                "checked_at": utc_now(),
+                "response_time_ms": elapsed_ms,
+                "error": f"HTTP {error.code}",
+                "interval_seconds": interval,
+                "timeout_seconds": timeout,
+            }
+        except (OSError, ValueError, urllib.error.URLError) as error:
+            return service_id, {
+                "name": service.get("name", service_id),
+                "port": None,
+                "url": url,
+                "status": "offline",
+                "checked_at": utc_now(),
+                "error": str(error),
+                "interval_seconds": interval,
+                "timeout_seconds": timeout,
+            }
 
     try:
         port = int(port_value)
@@ -110,6 +168,7 @@ def run(config_path, output_path, once=False):
                     str(service.get("name", service_id)),
                     str(service.get("port", "")).strip(),
                     str(service.get("health_host", "127.0.0.1")),
+                    str(service.get("link", "")).strip(),
                     interval,
                     timeout,
                 )
