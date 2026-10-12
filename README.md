@@ -1,17 +1,94 @@
 # local_site
 
-Корневая страница на моем веб-сервере в локальной сети.
-При коммите атоматически формируется из описания страницы `site.json` и шаблона `index.tpl` 
+Корневая страница локальной сети с каталогом сервисов. Описание берётся из `src/site.json`, HTML строится шаблоном `src/index.tpl` через `src/generate.py`.
 
-Репозиторий создан для эксплуатации возможности автоматически экспортировать содержимое в каталог вебсервера [при пуше в специальный origin](https://vsuh.github.io/vpub/OBSIDIAN/notes/%D0%90%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5%20%D0%BE%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%81%D0%BE%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%BC%D0%BE%D0%B3%D0%BE%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0%20%D0%BF%D1%80%D0%B8%20%D0%BF%D1%83%D1%88%D0%B5%20%D0%B2%20github.com.html).
+## Состав проекта
 
-Для автоматической генерации файла `index.html` при коммите, нужно выполнить команду:
+- `src/site.json` — заголовок, ссылки, порты сервисов и настройки проверки здоровья.
+- `src/index.tpl` — HTML-шаблон главной страницы.
+- `src/generate.py` — генерация корневого `index.html`.
+- `static/css/styles.css` и `static/js/vscraft.js` — оформление и интерфейс.
+- `src/healthcheck.py` — серверная проверка TCP-портов с публикацией результатов в JSON.
+
+## Настройки
+
+В `src/site.json`, внутри объекта `site`, находится раздел:
+
+```json
+"healthcheck": {
+    "interval_seconds": 30,
+    "timeout_seconds": 3
+}
+```
+
+- `interval_seconds` — как часто сервер повторяет проверки и как часто страница обновляет статусы (секунды).
+- `timeout_seconds` — максимальное время ожидания подключения к каждому порту (секунды).
+
+Для локальных сервисов проверяется TCP-подключение к `127.0.0.1:<port>`. Это подтверждает доступность порта, но не проверяет корректность HTTP-ответа или работоспособность приложения на уровне бизнес-логики. Для сервиса, слушающего на другом адресе, можно указать в его записи `"health_host": "адрес"`. Сервисы без `port`, у которых задана внешняя ссылка, обозначаются как `External`.
+
+## Запуск серверной проверки
+
+Проверяющий процесс нужно запускать на том же сервере, где работают сервисы, и направить файл результатов в каталог `static`, который реально отдаёт веб-сервер. Например, если репозиторий находится в `/opt/local_site`, а корень сайта — `/var/www/html`:
+
+```bash
+python3 /opt/local_site/src/healthcheck.py \
+  --config /opt/local_site/src/site.json \
+  --output /var/www/html/static/health.json
+```
+
+Команда работает непрерывно и обновляет JSON с периодом из `site.json`. Для быстрой проверки один раз можно выполнить:
+
+```bash
+python3 src/healthcheck.py --once
+```
+
+При запуске с параметрами по умолчанию файл создаётся в `static/health.json` репозитория. Убедитесь, что у пользователя процесса есть право записи в каталог результатов, а веб-сервер может читать файл. Не открывайте отдельный порт наружу: браузер получает JSON с того же origin, что и главная страница.
+
+### Пример systemd-службы
+
+Создайте `/etc/systemd/system/local-site-healthcheck.service`, заменив пути на свои:
+
+```ini
+[Unit]
+Description=Local site service health checks
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/local_site/src/healthcheck.py --config /opt/local_site/src/site.json --output /var/www/html/static/health.json
+Restart=always
+RestartSec=5
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Затем активируйте службу:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now local-site-healthcheck.service
+sudo systemctl status local-site-healthcheck.service
+```
+
+Если `www-data` не имеет доступа к портам или каталогу публикации, выберите подходящего пользователя и настройте права на запись в `static/health.json`.
+
+## Генерация HTML
+
+Для генерации `index.html` локально:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 src/generate.py
+```
+
+Чтобы автоматически генерировать страницу при коммите, установите git hook:
 
 ```bash
 git config --local core.hooksPath .githooks
-chmod +x /githooks/pre-commit
+chmod +x .githooks/pre-commit
 ```
 
-Результат выглядит так:
-
-![png](static/images/index.htm.png)
+Hook запускает генератор и добавляет полученный `index.html` в коммит. Если изменения отправляются через GitHub API, hook автоматически не запускается — тогда обновлённый `index.html` должен быть включён в коммит отдельно.
