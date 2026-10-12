@@ -83,16 +83,16 @@
                     "link": "",
                     "port": "8011",
                     "tag": "docs",
-                    "infolink": ""
+                    "infolink": "https://github.com/vsuh/sleepmon"
                 },
-                "sleepmon": {
+                "weathertbl": {
                     "name": "Weather-Table",
                     "linkname": "open",
                     "description": "Графики погоды",
                     "link": "",
                     "port": "8000",
                     "tag": "media",
-                    "infolink": ""
+                    "infolink": "https://github.com/vsuh/weather-table"
                 },
                 "powermon": {
                     "name": "Powermon",
