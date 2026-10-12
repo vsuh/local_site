@@ -24,7 +24,7 @@
             <ul class="vs-nav">
                 {% for key, svc in site.container.links.items() %}
                 <li>
-                    <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                    <a href="#" data-health-id="{{ key }}" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
                        data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                        class="vs-nav-item tag-{{ svc.tag }}" target="_blank">
                         <span class="vs-dot tag-{{ svc.tag }}"></span>
@@ -65,7 +65,7 @@
                     <span class="vs-service-port">{% if svc.port %}:{{ svc.port }}{% else %}↗ ext{% endif %}</span>
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
-                <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                <a href="#" data-health-id="{{ key }}" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
                    data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
@@ -84,7 +84,7 @@
                     <span class="vs-service-port">{% if svc.port %}:{{ svc.port }}{% else %}↗ ext{% endif %}</span>
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
-                <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                <a href="#" data-health-id="{{ key }}" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
                    data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
@@ -103,7 +103,7 @@
                     <span class="vs-service-port">{% if svc.port %}:{{ svc.port }}{% else %}↗ ext{% endif %}</span>
                 </div>
                 <div class="vs-service-desc">{{ svc.description }}</div>
-                <a href="#" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
+                <a href="#" data-health-id="{{ key }}" data-port="{{ svc.port }}" data-link="{{ svc.link }}"
                    data-health-interval="{{ svc.interval_seconds | default(site.healthcheck.interval_seconds) }}"
                    class="service-link tag-{{ svc.tag }}" target="_blank">→ {{ svc.linkname }}</a>
             </div>
