@@ -92,3 +92,20 @@ chmod +x .githooks/pre-commit
 ```
 
 Hook запускает генератор и добавляет полученный `index.html` в коммит. Если изменения отправляются через GitHub API, hook автоматически не запускается — тогда обновлённый `index.html` должен быть включён в коммит отдельно.
+
+
+## Автоматическая сборка и публикация
+
+Workflow `.github/workflows/deploy.yml` запускается при push в `master` или вручную через GitHub Actions. Он проверяет JSON, генерирует `index.html`, коммитит его в `master`, если файл изменился, затем подключается к серверу и отправляет актуальный `master` в bare-репозиторий `/opt/www-bare.git`. Его `post-receive` публикует файлы в `/var/www/html`.
+
+В настройках репозитория GitHub откройте **Settings → Secrets and variables → Actions** и создайте secrets:
+
+- `DEPLOY_HOST` — публичное DNS-имя или IP сервера, доступный с GitHub Actions.
+- `DEPLOY_USER` — SSH-пользователь, у которого есть доступ к `/opt/www-repo` и право выполнять `git push live master`.
+- `DEPLOY_SSH_KEY` — приватный SSH-ключ для подключения к серверу; соответствующий публичный ключ должен быть в `~/.ssh/authorized_keys` пользователя.
+- `DEPLOY_KNOWN_HOSTS` — проверенная запись host key сервера для `known_hosts`, полученная и сверенная безопасным способом.
+- `DEPLOY_PORT` — необязательный SSH-порт; если не задан, используется `22`.
+
+На сервере пользователь деплоя должен иметь возможность выполнить в `/opt/www-repo` команды `git fetch origin master`, `git pull --ff-only origin master` и `git push live master` без интерактивного ввода. Remote `origin` должен вести на этот GitHub-репозиторий, а remote `live` — на `/opt/www-bare.git`.
+
+Перед первым запуском убедитесь, что изменения в `/var/www/html`, отсутствующие в репозитории, сохранены отдельно: публикация обновляет отслеживаемые Git-файлы. Не добавляйте приватный ключ в репозиторий и не отключайте проверку SSH host key.
