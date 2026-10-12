@@ -4,13 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     const healthUrl = body.dataset.healthUrl || "/static/health.json";
     const configuredInterval = Number(body.dataset.healthInterval);
-    const configuredTimeout = Number(body.dataset.healthTimeout);
     const defaultIntervalMs = Number.isFinite(configuredInterval) && configuredInterval > 0
         ? configuredInterval * 1000
         : 30000;
-    const healthTimeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0
-        ? configuredTimeout * 1000
-        : 3000;
+    // This is the deadline for fetching the JSON document, independent of TCP
+    // connection timeouts used by the server-side health checker.
+    const healthFetchTimeoutMs = 10000;
 
     const serviceLinks = [...document.querySelectorAll(".service-link, .vs-nav-item[data-port], .vs-nav-item[data-link]")];
     serviceLinks.forEach(link => {
@@ -36,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeRequest = null;
     let requestTimeout = null;
     let refreshInProgress = false;
+    let refreshAbortedForPause = false;
+    let refreshAgainImmediately = false;
+    let requestTimedOut = false;
 
     function isPageActive() {
         return document.visibilityState === "visible" && document.hasFocus();
@@ -54,7 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
             window.clearTimeout(refreshTimer);
             refreshTimer = null;
         }
-        if (activeRequest) activeRequest.abort();
+        if (activeRequest) {
+            refreshAbortedForPause = true;
+            activeRequest.abort();
+        }
     }
 
     function syncRefreshState() {
@@ -70,8 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let healthAvailable = false;
 
     cards.forEach(card => {
-        const link = card.querySelector(".service-link");
-        const port = (link?.dataset.port || "").trim();
+        const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
         const badge = document.createElement("span");
         badge.className = "vs-service-status " + (port ? "is-checking" : "is-external");
         badge.textContent = port ? "Checking" : "External";
@@ -135,8 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
     async function refreshHealth() {
         if (!isPageActive() || refreshInProgress) return;
         refreshInProgress = true;
+        refreshAbortedForPause = false;
+        refreshAgainImmediately = false;
+        requestTimedOut = false;
         activeRequest = new AbortController();
-        requestTimeout = window.setTimeout(() => activeRequest?.abort(), healthTimeoutMs);
+        requestTimeout = window.setTimeout(() => {
+            requestTimedOut = true;
+            activeRequest?.abort();
+        }, healthFetchTimeoutMs);
         cards.forEach(card => {
             const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
             if (port) setCardStatus(card, "checking", "Waiting for the server health-check data.");
@@ -178,21 +188,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 setCardStatus(card, status, [checked, reason.trim()].filter(Boolean).join(" · "));
             });
         } catch (error) {
-            if (error.name === "AbortError" && !isPageActive()) return;
+            if (error.name === "AbortError" && refreshAbortedForPause) {
+                if (isPageActive()) refreshAgainImmediately = true;
+                return;
+            }
             healthAvailable = false;
+            const reason = requestTimedOut ? "Health endpoint request timed out." : error.message;
             cards.forEach(card => {
                 const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
-                if (port) setCardStatus(card, "unknown", `Could not read server health data: ${error.message}`);
+                if (port) setCardStatus(card, "unknown", `Could not read server health data: ${reason}`);
             });
-        }
-        updateSummary();
         } finally {
             if (requestTimeout !== null) window.clearTimeout(requestTimeout);
             requestTimeout = null;
             activeRequest = null;
             refreshInProgress = false;
-            scheduleRefresh();
+            const refreshImmediately = refreshAgainImmediately;
+            refreshAgainImmediately = false;
+            refreshAbortedForPause = false;
+            if (refreshImmediately && isPageActive()) refreshHealth();
+            else scheduleRefresh();
         }
+        updateSummary();
     }
 
     document.addEventListener("visibilitychange", syncRefreshState);
