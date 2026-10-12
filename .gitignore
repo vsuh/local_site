@@ -4,4 +4,5 @@ dist/index.html
 .venv/
 __pycache__/
 
-tt.py  
+tt.py
+static/health.json
