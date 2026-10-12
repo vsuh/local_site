@@ -84,6 +84,7 @@ def write_json_atomic(path, payload):
 def run(config_path, output_path, once=False):
     last_checked = {}
     results = {}
+    service_signatures = {}
 
     while True:
         try:
@@ -96,12 +97,28 @@ def run(config_path, output_path, once=False):
             active_ids = set(services)
             results = {key: value for key, value in results.items() if key in active_ids}
             last_checked = {key: value for key, value in last_checked.items() if key in active_ids}
+            service_signatures = {
+                key: value for key, value in service_signatures.items() if key in active_ids
+            }
             now = time.monotonic()
             due = []
 
             for service_id, service in services.items():
                 interval = max(1.0, float(service.get("interval_seconds", default_interval)))
                 timeout = max(0.1, float(service.get("timeout_seconds", default_timeout)))
+                signature = (
+                    str(service.get("name", service_id)),
+                    str(service.get("port", "")).strip(),
+                    str(service.get("health_host", "127.0.0.1")),
+                    interval,
+                    timeout,
+                )
+                previous_signature = service_signatures.get(service_id)
+                if previous_signature is not None and previous_signature != signature:
+                    results.pop(service_id, None)
+                    last_checked.pop(service_id, None)
+                service_signatures[service_id] = signature
+
                 if service_id not in results or now - last_checked.get(service_id, 0) >= interval:
                     due.append((service_id, service, timeout, interval))
 
