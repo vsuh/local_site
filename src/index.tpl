@@ -10,7 +10,7 @@
     <title>{{ site.head.title }}</title>
     <link rel="stylesheet" href="{{ site.parameters.css }}/styles.css">
 </head>
-<body>
+<body data-health-url="{{ site.parameters.health }}" data-health-interval="{{ site.healthcheck.interval_seconds }}">
 
     <!-- Sidebar -->
     <aside class="vs-sidebar">
