@@ -4,7 +4,8 @@
             "images": "/static/images",
             "icons": "/static/icons",
             "css": "/static/css",
-            "scripts": "/static/js"
+            "scripts": "/static/js",
+            "health": "/static/health.json"
         },
         "head": {
             "title": "Infrastructure Dashboard",
@@ -127,6 +128,10 @@
             "left": "2025 © VSCraft",
             "middle": "",
             "right": "<a href='https://github.com/vsuh/local_site.git'>GitHub</a>"
+        },
+        "healthcheck": {
+            "interval_seconds": 30,
+            "timeout_seconds": 3
         }
     }
 }
