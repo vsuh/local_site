@@ -360,3 +360,132 @@ a {
     .vs-col:nth-child(2),
     .vs-col:last-child { padding-left: 0; padding-right: 0; border-top: none; margin-top: 0; }
 }
+
+/* ─── Modern Ops dashboard refresh ─────────────────────────── */
+:root {
+    color-scheme: dark;
+    --bg: #080b12;
+    --panel: #0e1420;
+    --panel-raised: #121b2a;
+    --line: #202c3e;
+    --muted: #7c8ba1;
+    --text: #e8eef8;
+    --cyan: #6ee7f9;
+    --green: #4ade80;
+    --red: #fb7185;
+    --amber: #fbbf24;
+}
+body {
+    background:
+        radial-gradient(ellipse at 85% 0%, rgba(14, 165, 233, .09), transparent 34rem),
+        var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: -.02em;
+}
+.vs-sidebar { background: rgba(10, 15, 25, .94); border-color: var(--line); }
+.vs-logo-main { font-family: 'JetBrains Mono', monospace; letter-spacing: -.06em; }
+.vs-logo-sub { color: #64748b; letter-spacing: .24em; }
+.vs-nav-label, .vs-header-title, .vs-col-label {
+    letter-spacing: .16em;
+    font-weight: 500;
+}
+.vs-nav-item { border-radius: 0 7px 7px 0; transition: background .18s, color .18s; }
+.vs-nav-item:hover { background: rgba(148, 163, 184, .08); }
+.vs-dot { width: 7px; height: 7px; box-shadow: 0 0 9px currentColor; }
+.vs-header { border-color: var(--line); }
+.vs-header-ping { font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+.vs-ping-dot { box-shadow: 0 0 12px rgba(74, 222, 128, .65); animation: ping-glow 2s ease-in-out infinite; }
+.vs-main { gap: 1.1rem; padding: 1.5rem 2rem 2rem; }
+.vs-col {
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(18, 27, 42, .8), rgba(13, 19, 30, .65));
+    min-width: 0;
+}
+.vs-col:first-child { padding-left: 1.1rem; }
+.vs-col:last-child { padding-right: 1.1rem; padding-left: 1.1rem; }
+.vs-col:nth-child(2) { padding-left: 1.1rem; }
+.vs-col-label { border-bottom-color: var(--line); padding-bottom: .85rem; }
+.vs-service {
+    padding: 1rem .7rem;
+    margin: 0 -.7rem;
+    border: 1px solid transparent;
+    border-bottom-color: rgba(32, 44, 62, .7);
+    border-radius: 9px;
+    gap: .55rem;
+    transition: background .18s, border-color .18s, transform .18s;
+}
+.vs-service:hover {
+    background: rgba(148, 163, 184, .035);
+    border-color: rgba(110, 231, 249, .14);
+    transform: translateY(-1px);
+}
+.vs-service-header { align-items: center; }
+.vs-service-name { font-family: 'JetBrains Mono', monospace; font-size: .83rem; letter-spacing: -.035em; }
+.vs-service-port { color: #60718a; font-size: .65rem; }
+.vs-service-desc { color: #8a9ab0; font-family: 'JetBrains Mono', monospace; font-size: .7rem; line-height: 1.65; }
+.service-link {
+    border-radius: 6px;
+    padding: .42rem .65rem;
+    font-size: .64rem;
+    font-weight: 500;
+    background: rgba(148, 163, 184, .025);
+    transition: background .18s, border-color .18s, transform .18s;
+}
+.service-link:hover { transform: translateX(2px); }
+.vs-footer { border-color: var(--line); }
+.vs-footer-left { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+.vs-footer-right a { font-size: .65rem; }
+.vs-status-line { color: var(--green); }
+.vs-status-line.dim { color: #58677d; }
+.vs-service-status {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    flex-shrink: 0;
+    font-size: .58rem;
+    line-height: 1;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.vs-service-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+}
+.vs-service-status.is-online { color: var(--green); }
+.vs-service-status.is-offline { color: var(--red); }
+.vs-service-status.is-checking { color: var(--amber); }
+.vs-service-status.is-external { color: #94a3b8; }
+.vs-sidebar-status .vs-status-line[data-health] { color: var(--green); }
+.vs-sidebar-status .vs-status-line[data-health].has-offline { color: var(--amber); }
+@keyframes ping-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .55; }
+}
+@media (max-width: 1100px) {
+    .vs-main { gap: .9rem; }
+    .vs-col { padding: .9rem; }
+    .vs-col:first-child, .vs-col:nth-child(2), .vs-col:last-child { padding-left: .9rem; padding-right: .9rem; }
+}
+@media (max-width: 800px) {
+    body { display: flex; flex-direction: column; }
+    .vs-sidebar { gap: 1rem; }
+    .vs-header { padding: 1rem 1.25rem; }
+    .vs-main { padding: 1rem 1.25rem; gap: .85rem; }
+    .vs-col, .vs-col:first-child, .vs-col:nth-child(2), .vs-col:last-child {
+        padding: .8rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+    }
+    .vs-footer { padding: .8rem 1.25rem; gap: .7rem; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
