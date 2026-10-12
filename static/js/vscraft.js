@@ -101,6 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`Health endpoint returned HTTP ${response.status}`);
             const data = await response.json();
             if (!data || typeof data.services !== "object") throw new Error("Invalid health-check payload");
+            const updatedAt = Date.parse(data.updated_at || "");
+            const staleAfterMs = Math.max(refreshInterval * 2, 120000);
+            if (!Number.isFinite(updatedAt) || Date.now() - updatedAt > staleAfterMs) {
+                throw new Error("Server health data is stale; check that the health-check process is running.");
+            }
             healthAvailable = true;
             latestStatuses = new Map(Object.entries(data.services));
 
