@@ -7,6 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const defaultIntervalMs = Number.isFinite(configuredInterval) && configuredInterval > 0
         ? configuredInterval * 1000
         : 30000;
+
+    function isAbsoluteHttpUrl(value) {
+        try {
+            const url = new URL(value);
+            return (url.protocol === "http:" || url.protocol === "https:")
+                && Boolean(url.hostname) && !url.username && !url.password;
+        } catch {
+            return false;
+        }
+    }
+
+    function isMonitoredLink(link) {
+        const port = (link?.dataset.port || "").trim();
+        const url = (link?.dataset.link || "").trim();
+        return Boolean(port || isAbsoluteHttpUrl(url));
+    }
     // This is the deadline for fetching the JSON document, independent of TCP
     // connection timeouts used by the server-side health checker.
     const healthFetchTimeoutMs = 10000;
@@ -75,14 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let healthAvailable = false;
 
     cards.forEach(card => {
-        const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
+        const link = card.querySelector(".service-link");
+        const port = (link?.dataset.port || "").trim();
+        const url = (link?.dataset.link || "").trim();
+        const monitored = Boolean(port || isAbsoluteHttpUrl(url));
         const badge = document.createElement("span");
-        badge.className = "vs-service-status " + (port ? "is-checking" : "is-external");
-        badge.textContent = port ? "Checking" : "External";
+        badge.className = "vs-service-status " + (monitored ? "is-checking" : "is-external");
+        badge.textContent = monitored ? "Checking" : "External";
         badge.setAttribute("aria-live", "polite");
         const header = card.querySelector(".vs-service-header");
         if (header) header.appendChild(badge);
-        card.dataset.health = port ? "checking" : "external";
+        card.dataset.health = monitored ? "checking" : "external";
     });
 
     function setCardStatus(card, status, details = "") {
@@ -103,7 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateSummary() {
-        const monitored = cards.filter(card => (card.querySelector(".service-link")?.dataset.port || "").trim());
+        const monitored = cards.filter(card => {
+            const link = card.querySelector(".service-link");
+            return isMonitoredLink(link);
+        });
         const online = monitored.filter(card => card.dataset.health === "online").length;
         const offline = monitored.filter(card => card.dataset.health === "offline").length;
         const checking = monitored.filter(card => card.dataset.health === "checking").length;
@@ -148,8 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
             activeRequest?.abort();
         }, healthFetchTimeoutMs);
         cards.forEach(card => {
-            const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
-            if (port) setCardStatus(card, "checking", "Waiting for the server health-check data.");
+            const link = card.querySelector(".service-link");
+            const monitored = isMonitoredLink(link);
+            if (monitored) setCardStatus(card, "checking", "Waiting for the server health-check data.");
         });
         updateSummary();
         try {
@@ -173,19 +196,23 @@ document.addEventListener("DOMContentLoaded", () => {
             cards.forEach(card => {
                 const link = card.querySelector(".service-link");
                 const port = (link?.dataset.port || "").trim();
-                if (!port) {
-                    setCardStatus(card, "external", "External link; no local port to check.");
+                const url = (link?.dataset.link || "").trim();
+                if (!port && !isAbsoluteHttpUrl(url)) {
+                    setCardStatus(card, "external", "No supported HTTP(S) URL or local port configured.");
                     return;
                 }
-                const service = [...latestStatuses.values()].find(item => String(item.port) === port);
+                const serviceId = link?.dataset.healthId;
+                const service = latestStatuses.get(serviceId)
+                    || (port ? [...latestStatuses.values()].find(item => String(item.port) === port) : null);
                 if (!service) {
-                    setCardStatus(card, "unknown", "No status was found for this port in the server health data.");
+                    setCardStatus(card, "unknown", "No status was found in the server health data.");
                     return;
                 }
                 const status = service.status;
                 const checked = service.checked_at ? `Last checked: ${service.checked_at}` : "";
+                const response = service.status_code ? `HTTP ${service.status_code}` : "";
                 const reason = service.error ? ` Details: ${service.error}` : "";
-                setCardStatus(card, status, [checked, reason.trim()].filter(Boolean).join(" · "));
+                setCardStatus(card, status, [checked, response, reason.trim()].filter(Boolean).join(" · "));
             });
         } catch (error) {
             if (error.name === "AbortError" && !requestTimedOut) {
@@ -198,8 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
             healthAvailable = false;
             const reason = requestTimedOut ? "Health endpoint request timed out." : error.message;
             cards.forEach(card => {
-                const port = (card.querySelector(".service-link")?.dataset.port || "").trim();
-                if (port) setCardStatus(card, "unknown", `Could not read server health data: ${reason}`);
+                const link = card.querySelector(".service-link");
+                const monitored = isMonitoredLink(link);
+                if (monitored) setCardStatus(card, "unknown", `Could not read server health data: ${reason}`);
             });
         } finally {
             if (requestTimeout !== null) window.clearTimeout(requestTimeout);
