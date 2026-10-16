@@ -133,7 +133,7 @@ def check_service(service_id, service, timeout, interval):
                 "status": "offline",
                 "error": f"HTTP check exceeded {timeout:g}s deadline",
             }
-        except (OSError, subprocess.SubprocessError, ValueError, json.JSONDecodeError) as error:
+        except (http.client.HTTPException, OSError, subprocess.SubprocessError, ValueError, json.JSONDecodeError) as error:
             checked = {"status": "offline", "error": str(error)}
 
         elapsed_ms = round((time.monotonic() - started) * 1000)
