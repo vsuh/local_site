@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function isAbsoluteHttpUrl(value) {
         try {
             const url = new URL(value);
-            return (url.protocol === "http:" || url.protocol === "https:") && Boolean(url.hostname);
+            return (url.protocol === "http:" || url.protocol === "https:")
+                && Boolean(url.hostname) && !url.username && !url.password;
         } catch {
             return false;
         }
