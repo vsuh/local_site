@@ -7,6 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const defaultIntervalMs = Number.isFinite(configuredInterval) && configuredInterval > 0
         ? configuredInterval * 1000
         : 30000;
+
+    function isAbsoluteHttpUrl(value) {
+        try {
+            const url = new URL(value);
+            return (url.protocol === "http:" || url.protocol === "https:") && Boolean(url.hostname);
+        } catch {
+            return false;
+        }
+    }
+
+    function isMonitoredLink(link) {
+        const port = (link?.dataset.port || "").trim();
+        const url = (link?.dataset.link || "").trim();
+        return Boolean(port || isAbsoluteHttpUrl(url));
+    }
     // This is the deadline for fetching the JSON document, independent of TCP
     // connection timeouts used by the server-side health checker.
     const healthFetchTimeoutMs = 10000;
@@ -78,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const link = card.querySelector(".service-link");
         const port = (link?.dataset.port || "").trim();
         const url = (link?.dataset.link || "").trim();
-        const monitored = Boolean(port || url);
+        const monitored = Boolean(port || isAbsoluteHttpUrl(url));
         const badge = document.createElement("span");
         badge.className = "vs-service-status " + (monitored ? "is-checking" : "is-external");
         badge.textContent = monitored ? "Checking" : "External";
@@ -108,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateSummary() {
         const monitored = cards.filter(card => {
             const link = card.querySelector(".service-link");
-            return Boolean((link?.dataset.port || "").trim() || (link?.dataset.link || "").trim());
+            return isMonitoredLink(link);
         });
         const online = monitored.filter(card => card.dataset.health === "online").length;
         const offline = monitored.filter(card => card.dataset.health === "offline").length;
@@ -155,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, healthFetchTimeoutMs);
         cards.forEach(card => {
             const link = card.querySelector(".service-link");
-            const monitored = Boolean((link?.dataset.port || "").trim() || (link?.dataset.link || "").trim());
+            const monitored = isMonitoredLink(link);
             if (monitored) setCardStatus(card, "checking", "Waiting for the server health-check data.");
         });
         updateSummary();
@@ -181,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const link = card.querySelector(".service-link");
                 const port = (link?.dataset.port || "").trim();
                 const url = (link?.dataset.link || "").trim();
-                if (!port && !url) {
-                    setCardStatus(card, "external", "No URL or local port configured.");
+                if (!port && !isAbsoluteHttpUrl(url)) {
+                    setCardStatus(card, "external", "No supported HTTP(S) URL or local port configured.");
                     return;
                 }
                 const serviceId = link?.dataset.healthId;
@@ -210,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const reason = requestTimedOut ? "Health endpoint request timed out." : error.message;
             cards.forEach(card => {
                 const link = card.querySelector(".service-link");
-                const monitored = Boolean((link?.dataset.port || "").trim() || (link?.dataset.link || "").trim());
+                const monitored = isMonitoredLink(link);
                 if (monitored) setCardStatus(card, "unknown", `Could not read server health data: ${reason}`);
             });
         } finally {
