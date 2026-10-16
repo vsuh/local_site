@@ -184,7 +184,13 @@ def check_service(service_id, service, timeout, interval):
 def is_absolute_http_url(url):
     try:
         parsed = urllib.parse.urlsplit(url)
-        return parsed.scheme in ("http", "https") and bool(parsed.hostname and parsed.netloc)
+        if parsed.scheme not in ("http", "https") or not parsed.hostname or not parsed.netloc:
+            return False
+        if parsed.username is not None or parsed.password is not None:
+            return False
+        # Accessing .port also validates the explicit port syntax.
+        parsed.port
+        return True
     except ValueError:
         return False
 
